@@ -94,9 +94,23 @@ ButtonPressed
   orig: 48, 48
   offset: 0, 0
   index: -1
-Warrior
+Archer
   rotate: false
   xy: 407, 65
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Warrior
+  rotate: false
+  xy: 441, 65
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Worker
+  rotate: false
+  xy: 475, 65
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -117,7 +131,7 @@ GoldIcon
   index: -1
 WoodIcon
   rotate: false
-  xy: 441, 77
+  xy: 509, 77
   size: 20, 20
   orig: 20, 20
   offset: 0, 0

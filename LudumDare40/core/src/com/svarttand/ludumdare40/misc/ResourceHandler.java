@@ -1,5 +1,8 @@
 package com.svarttand.ludumdare40.misc;
 
+import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.units.UnitType;
+
 public class ResourceHandler {
 	
 	private int wood;
@@ -34,6 +37,20 @@ public class ResourceHandler {
 
 	public void setFood(int food) {
 		this.food = food;
+	}
+
+	public void removeCost(UnitType type) {
+		food = food - type.getFoodCost();
+		wood = wood - type.getWoodCost();
+		gold = gold - type.getGoldCost();
+		
+	}
+
+	public void addTilesResourcers(Hexagon hexagon) {
+		food = food + hexagon.getType().getFood();
+		wood = wood + hexagon.getType().getWood();
+		gold = gold + hexagon.getType().getGold();
+		
 	}
 	
 

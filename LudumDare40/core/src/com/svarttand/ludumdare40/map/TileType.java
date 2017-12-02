@@ -30,6 +30,20 @@ public enum TileType {
 	public int getMovmentCost(){
 		return movmentCost;
 	}
+
+	public int getGold() {
+		return gold;
+	}
+
+	public int getFood() {
+		return food;
+	}
+
+	public int getWood() {
+		return wood;
+	}
+	
+	
 	
 
 }

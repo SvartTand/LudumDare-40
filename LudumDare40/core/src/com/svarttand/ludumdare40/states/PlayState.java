@@ -52,7 +52,7 @@ public class PlayState extends State{
 		
 		unitHandler = new UnitHandler();
 		cam.position.x = map.getStartPos().x;
-		cam.position.y = map.getStartPos().y;
+		cam.position.y = Application.V_HEIGHT*0.3f;
 		
 		resourceHandler = new ResourceHandler(5,5,5);
 	}
@@ -60,15 +60,15 @@ public class PlayState extends State{
 	@Override
 	protected void handleInput(float delta) {
 		//UP
-		if (Gdx.input.isKeyPressed(Keys.W)) {
-			cam.position.y = cam.position.y + CAM_SPEED*delta;
-
-		}
-		//DOWN
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			cam.position.y = cam.position.y - CAM_SPEED*delta;
-
-		}
+//		if (Gdx.input.isKeyPressed(Keys.W)) {
+//			cam.position.y = cam.position.y + CAM_SPEED*delta;
+//
+//		}
+//		//DOWN
+//		if (Gdx.input.isKeyPressed(Keys.S)) {
+//			cam.position.y = cam.position.y - CAM_SPEED*delta;
+//
+//		}
 		//LEFT
 		if (Gdx.input.isKeyPressed(Keys.A)) {
 			cam.position.x = cam.position.x - CAM_SPEED*delta;
@@ -139,7 +139,9 @@ public class PlayState extends State{
 
 	public void nextTurn() {
 		unitHandler.nextTurn();
+		map.update(resourceHandler);
 		ui.update(resourceHandler);
+		
 		
 	}
 	

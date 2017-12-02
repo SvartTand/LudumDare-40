@@ -44,7 +44,8 @@ public class PlayUI {
 	private Button moveCommandButton;
 	private Button attackCommandButton;
 	private Button BuildCommandButton;
-	private Button button;
+	private Button makeWarriorButton;
+	private Button makeBuilderButton;
 	
 	private Label resourcesText;
 	private Label buildingInfoText;
@@ -104,21 +105,58 @@ public class PlayUI {
 	    buttonList.add(attackCommandButton);
 	    stage.addActor(attackCommandButton);
 	    
-	    BuildCommandButton = new TextButton("B", style);
-	    BuildCommandButton.setPosition(Application.V_WIDTH*0.14f, Application.V_HEIGHT*0.11f);
-	    BuildCommandButton.addListener( new ClickListener() {
+	    makeBuilderButton = new TextButton("Builder", style);
+	    makeBuilderButton.setPosition(Application.V_WIDTH*0.125f, Application.V_HEIGHT*0.11f);
+	    makeBuilderButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
 	        	 if (selectedUnit == null && selectedHexagon != null) {
-	        		 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR, 1);
-					game.getUnitHandler().addUnit(selectedUnit);
-					System.out.println("Unit added");
+	        		 if (game.getResources().getFood()>= UnitType.WORKER.getFoodCost() && 
+	        			 game.getResources().getWood()>= UnitType.WORKER.getWoodCost() &&
+	        			 game.getResources().getGold()>= UnitType.WORKER.getGoldCost()) {
+	        			 selectedUnit = selectedHexagon.addUnit(UnitType.WORKER, 1);
+	 					game.getUnitHandler().addUnit(selectedUnit);
+	 					System.out.println("Unit added");
+	 					updateButtons();
+	 					
+	 					game.getResources().removeCost(UnitType.WORKER);
+	 					update(game.getResources());
+					}else{
+						System.out.println("Not enough money!");
+					}
+	        		
 				}
-	        	 BuildCommandButton.setChecked(false);
+	        	 makeBuilderButton.setChecked(false);
 	            }
 	        });
-	    buttonList.add(BuildCommandButton);
-	    stage.addActor(BuildCommandButton);
+	    buttonList.add(makeBuilderButton);
+	    stage.addActor(makeBuilderButton);
+	    
+	    makeWarriorButton = new TextButton("Warrior", style);
+	    makeWarriorButton.setPosition(Application.V_WIDTH*0.2f, Application.V_HEIGHT*0.11f);
+	    makeWarriorButton.addListener( new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	        	 if (selectedUnit == null && selectedHexagon != null) {
+	        		 if (game.getResources().getFood()>= UnitType.WARRIOR.getFoodCost() && 
+		        			 game.getResources().getWood()>= UnitType.WARRIOR.getWoodCost() &&
+		        			 game.getResources().getGold()>= UnitType.WARRIOR.getGoldCost()) {
+		        			 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR, 1);
+		 					game.getUnitHandler().addUnit(selectedUnit);
+		 					System.out.println("Unit added");
+		 					updateButtons();
+		 					
+		 					game.getResources().removeCost(UnitType.WARRIOR);
+		 					update(game.getResources());
+						}else{
+							System.out.println("Not enough money!");
+						}
+				}
+	        	 makeWarriorButton.setChecked(false);
+	            }
+	        });
+	    buttonList.add(makeWarriorButton);
+	    stage.addActor(makeWarriorButton);
 	    
 	    TextButtonStyle styleTurn = new TextButton.TextButtonStyle();
 	    styleTurn.font = font;
@@ -139,7 +177,8 @@ public class PlayUI {
 	    stage.addActor(endTurnButton);
 	    moveCommandButton.setVisible(false);
 		attackCommandButton.setVisible(false);
-		BuildCommandButton.setVisible(false);
+		makeBuilderButton.setVisible(false);
+		makeWarriorButton.setVisible(false);
 	    
 	}
 	
@@ -175,10 +214,16 @@ public class PlayUI {
 	public void setHex(Hexagon hex){
 		selectedHexagon = hex;
 		selectedUnit = hex.getUnit();
+		updateButtons();
+	}
+	
+	private void updateButtons(){
 		if (selectedHexagon.getType() == TileType.CITY) {
-			BuildCommandButton.setVisible(true);
+			makeBuilderButton.setVisible(true);
+			makeWarriorButton.setVisible(true);
 		}else{
-			BuildCommandButton.setVisible(false);
+			makeBuilderButton.setVisible(false);
+			makeWarriorButton.setVisible(false);
 		}
 		if (selectedUnit == null) {
 			moveCommandButton.setVisible(false);

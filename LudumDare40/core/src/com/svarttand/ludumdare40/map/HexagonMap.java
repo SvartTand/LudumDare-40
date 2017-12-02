@@ -6,6 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.units.Unit;
 
 
@@ -20,7 +21,8 @@ public class HexagonMap {
 	
 	private Vector2 startPos;
 	
-	private ArrayList<Unit> unitList;
+	private ArrayList<Hexagon> cityList;
+	
 	
 	public HexagonMap(int x, int y){
 		sizeX = x;
@@ -28,12 +30,13 @@ public class HexagonMap {
 		map = new Hexagon[x][y];
 		Random random = new Random();
 		createMap(random);
-		unitList = new ArrayList<Unit>();
+		cityList = new ArrayList<Hexagon>();
 		int randx = random.nextInt((sizeX - 5)) + 3;
 		int randy = random.nextInt((sizeY - 5)) + 3;
 		
 		map[randx][randy].setType(TileType.CITY);
 		startPos = new Vector2(map[randx][randy].getPosX(), map[randx][randy].getPosY());
+		cityList.add(map[randx][randy]);
 	}
 	
 	private void createMap(Random random){
@@ -137,6 +140,14 @@ public class HexagonMap {
 	
 	public Vector2 getStartPos(){
 		return startPos;
+	}
+	
+	public void update(ResourceHandler handler){
+		for (int i = 0; i < cityList.size(); i++) {
+			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
+				handler.addTilesResourcers(cityList.get(i).getNeighbors().get(j));
+			}
+		}
 	}
 
 }
