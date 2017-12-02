@@ -2,6 +2,7 @@ package com.svarttand.ludumdare40.ui;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,14 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.map.TileType;
 import com.svarttand.ludumdare40.misc.Command;
-import com.svarttand.ludumdare40.misc.GameController;
+import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.states.PlayState;
 import com.svarttand.ludumdare40.units.Unit;
 import com.svarttand.ludumdare40.units.UnitType;
@@ -67,8 +70,12 @@ public class PlayUI {
 	    style.down = skin.getDrawable("ButtonPressed");
 	    style.checked = skin.getDrawable("ButtonPressed");
 	    
+	    resourcesText = new Label("Food: " + game.getResources().getFood() + "\nGold: " + game.getResources().getGold() +"\nWood: " + game.getResources().getWood(), new LabelStyle(font, Color.WHITE));
+	    resourcesText.setPosition(Application.V_WIDTH *0.48f, Application.V_HEIGHT*0.03f);
 	    
-	    moveCommandButton = new TextButton("M", style);
+	    stage.addActor(resourcesText);
+	    
+	    moveCommandButton = new TextButton("Move", style);
 	    moveCommandButton.setPosition(Application.V_WIDTH*0.75f, Application.V_HEIGHT*0.11f);
 	    moveCommandButton.addListener( new ClickListener() {
 	         @Override
@@ -86,7 +93,7 @@ public class PlayUI {
 	    buttonList.add(moveCommandButton);
 	    stage.addActor(moveCommandButton);
 	    
-	    attackCommandButton = new TextButton("A", style);
+	    attackCommandButton = new TextButton("Attack", style);
 	    attackCommandButton.setPosition(Application.V_WIDTH*0.825f, Application.V_HEIGHT*0.11f);
 	    attackCommandButton.addListener( new ClickListener() {
 	         @Override
@@ -98,7 +105,7 @@ public class PlayUI {
 	    stage.addActor(attackCommandButton);
 	    
 	    BuildCommandButton = new TextButton("B", style);
-	    BuildCommandButton.setPosition(Application.V_WIDTH*0.9f, Application.V_HEIGHT*0.11f);
+	    BuildCommandButton.setPosition(Application.V_WIDTH*0.14f, Application.V_HEIGHT*0.11f);
 	    BuildCommandButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
@@ -130,11 +137,14 @@ public class PlayUI {
 	            }
 	        });
 	    stage.addActor(endTurnButton);
+	    moveCommandButton.setVisible(false);
+		attackCommandButton.setVisible(false);
+		BuildCommandButton.setVisible(false);
 	    
 	}
 	
-	public void update(){
-		
+	public void update(ResourceHandler resources){
+		resourcesText.setText("Food: " + resources.getFood() + "\nGold: " + resources.getGold() +"\nWood: " + resources.getWood());
 	}
 	
 	
@@ -148,6 +158,9 @@ public class PlayUI {
 		if (selectedHexagon != null) {
 			batch.draw(atlas.findRegion(selectedHexagon.getPath()),Application.V_WIDTH*0.02f, Application.V_HEIGHT*0.1f);
 		}
+		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.08f);
+		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.05f);
+		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.02f);
 		batch.end();
 	}
 	
@@ -162,6 +175,18 @@ public class PlayUI {
 	public void setHex(Hexagon hex){
 		selectedHexagon = hex;
 		selectedUnit = hex.getUnit();
+		if (selectedHexagon.getType() == TileType.CITY) {
+			BuildCommandButton.setVisible(true);
+		}else{
+			BuildCommandButton.setVisible(false);
+		}
+		if (selectedUnit == null) {
+			moveCommandButton.setVisible(false);
+			attackCommandButton.setVisible(false);
+		}else{
+			moveCommandButton.setVisible(true);
+			attackCommandButton.setVisible(true);
+		}
 	}
 
 	public void resetButtons() {

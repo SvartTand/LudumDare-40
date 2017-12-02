@@ -1,6 +1,7 @@
 package com.svarttand.ludumdare40.map;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -17,24 +18,41 @@ public class HexagonMap {
 	private int sizeY;
 	private Hexagon[][] map;
 	
+	private Vector2 startPos;
+	
 	private ArrayList<Unit> unitList;
 	
 	public HexagonMap(int x, int y){
 		sizeX = x;
 		sizeY = y;
 		map = new Hexagon[x][y];
-		createMap();
+		Random random = new Random();
+		createMap(random);
 		unitList = new ArrayList<Unit>();
+		int randx = random.nextInt((sizeX - 5)) + 3;
+		int randy = random.nextInt((sizeY - 5)) + 3;
 		
-		
+		map[randx][randy].setType(TileType.CITY);
+		startPos = new Vector2(map[randx][randy].getPosX(), map[randx][randy].getPosY());
 	}
 	
-	private void createMap(){
+	private void createMap(Random random){
 		System.out.println("xv");
 		for (int j = 0; j < map.length; j++) {
 			for (int i = 0; i < map[j].length; i++) {
+				int rand = random.nextInt(25);
+				TileType type = TileType.GRASS;
+				if (rand == 1) {
+					type = TileType.GOLD;
+				}else if (rand <= 6) {
+					type = TileType.FOOD;
+				}else if (rand <= 10) {
+					type = TileType.DESSERT;
+				}else if (rand <= 15) {
+					type = TileType.WOOD;
+				}
 				if (j%2 == 0) {
-					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f), j*HEX_HEIGHT*0.5f, TileType.GRASS);
+					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f), j*HEX_HEIGHT*0.5f, type);
 					try {
 						map[i][j-1].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i][j-1]);
@@ -57,7 +75,7 @@ public class HexagonMap {
 						// TODO: handle exception
 					}
 				}else{
-					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f)+HEX_WIDTH*0.75f, j*HEX_HEIGHT*0.5f, TileType.GRASS);
+					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f)+HEX_WIDTH*0.75f, j*HEX_HEIGHT*0.5f, type);
 					try {
 						map[i][j-2].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i][j-2]);
@@ -115,6 +133,10 @@ public class HexagonMap {
 			}
 		}
 		return null;
+	}
+	
+	public Vector2 getStartPos(){
+		return startPos;
 	}
 
 }

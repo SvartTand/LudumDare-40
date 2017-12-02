@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.misc.GameController;
+import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.ui.PlayUI;
 import com.svarttand.ludumdare40.units.UnitHandler;
 
@@ -31,6 +32,8 @@ public class PlayState extends State{
 	
 	private UnitHandler unitHandler;
 	
+	private ResourceHandler resourceHandler;
+	
 	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -41,12 +44,17 @@ public class PlayState extends State{
 		controller = new GameController(this);
 		multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(controller);
+		resourceHandler = new ResourceHandler(5,5,5);
 		ui = new PlayUI(textureAtlas, this);
 		multiplexer.addProcessor(ui.getStage());
 		
 		Gdx.input.setInputProcessor(multiplexer);
 		
 		unitHandler = new UnitHandler();
+		cam.position.x = map.getStartPos().x;
+		cam.position.y = map.getStartPos().y;
+		
+		resourceHandler = new ResourceHandler(5,5,5);
 	}
 
 	@Override
@@ -131,7 +139,13 @@ public class PlayState extends State{
 
 	public void nextTurn() {
 		unitHandler.nextTurn();
+		ui.update(resourceHandler);
 		
 	}
+	
+	public ResourceHandler getResources(){
+		return resourceHandler;
+	}
+	
 
 }

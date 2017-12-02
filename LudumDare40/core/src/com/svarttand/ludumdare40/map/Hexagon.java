@@ -121,6 +121,11 @@ public class Hexagon {
 		}
 		return false;
 	}
+
+	public void setType(TileType tileType) {
+		type = tileType;
+		
+	}
 	
 
 }
