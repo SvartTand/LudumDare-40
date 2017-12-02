@@ -88,16 +88,16 @@ public class HexagonMap {
 					placeholder = map[i][j];
 					//System.out.println("Drawing selected at " + map[i][j].getX() + ", " +  map[i][j].getY());
 					batch.draw(atlas.findRegion(map[i][j].getBorderType().getPath()), map[i][j].posX, map[i][j].posY);
-					for (int j2 = 0; j2 < placeholder.getVerticies().length; j2++) {
-						batch.draw(atlas.findRegion("point"), placeholder.getVerticies()[j2].x, placeholder.getVerticies()[j2].y);
-					}
+//					for (int j2 = 0; j2 < placeholder.getVerticies().length; j2++) {
+//						batch.draw(atlas.findRegion("point"), placeholder.getVerticies()[j2].x, placeholder.getVerticies()[j2].y);
+//					}
 				}
 			}
 		}
 	}
 
 	public Hexagon getTileWithPoint(Vector2 point) {
-		float height = (float) ((sizeY*0.477) * HEX_HEIGHT - point.y);
+		float height = (float) (14.3f * HEX_HEIGHT - point.y);
 		point.y = height;
 		System.out.println(point.y);
 		for (int i = 0; i < map.length; i++) {

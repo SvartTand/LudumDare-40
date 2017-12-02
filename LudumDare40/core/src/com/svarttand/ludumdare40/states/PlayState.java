@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.misc.GameController;
+import com.svarttand.ludumdare40.ui.PlayUI;
 
 
 public class PlayState extends State{
@@ -25,15 +26,19 @@ public class PlayState extends State{
 	private GameController controller;
 	private InputMultiplexer multiplexer;
 	
+	private PlayUI ui;
+	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		textureAtlas = gsm.assetManager.get("ThePack.pack", TextureAtlas.class);
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		map = new HexagonMap(30, 30);
+		map = new HexagonMap(20, 20);
 		controller = new GameController(this);
 		multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(controller);
+		ui = new PlayUI(textureAtlas, this);
+		multiplexer.addProcessor(ui.getStage());
 		
 		Gdx.input.setInputProcessor(multiplexer);
 	}
@@ -79,6 +84,8 @@ public class PlayState extends State{
 		batch.begin();
 		map.render(batch, textureAtlas);
 		batch.end();
+		ui.render(batch, textureAtlas);
+		ui.getStage().draw();
 		
 		
 	}

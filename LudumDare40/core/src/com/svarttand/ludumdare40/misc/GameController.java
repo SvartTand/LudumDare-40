@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.Application;
+import com.svarttand.ludumdare40.command.Command;
 import com.svarttand.ludumdare40.map.BorderType;
 import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.states.PlayState;
@@ -13,6 +14,8 @@ public class GameController implements InputProcessor{
 	
 	private PlayState game;
 	private Hexagon currentSelected;
+	
+	private Command currentCommand;
 	
 	public GameController(PlayState game) {
 		this.game = game;
@@ -38,22 +41,24 @@ public class GameController implements InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Vector2 v  = convertToGameCordinates(screenX, screenY);
-		if (currentSelected != null) {
-			currentSelected.setSelected(BorderType.NULL);
+		if (screenY < Gdx.graphics.getHeight()*0.8125f) {
+			Vector2 v  = convertToGameCordinates(screenX, screenY);
+			if (currentSelected != null) {
+				currentSelected.setSelected(BorderType.NULL);
+			}
+			System.out.println(v.x + ", " + v.y);
+			try {
+				currentSelected = game.getMap().getTileWithPoint(v);
+				//currentSelected = game.getMap().getTile(v.x, v.y);
+				currentSelected.setSelected(BorderType.WHITE);
+//				for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
+//					currentSelected.getNeighbors().get(i).setSelected(true);
+//				}
+				System.out.println(currentSelected);
+			}catch (Exception e) {
+				System.out.println(e);
+			}
 		}
-		System.out.println(v.x + ", " + v.y);
-		try {
-			currentSelected = game.getMap().getTileWithPoint(v);
-			//currentSelected = game.getMap().getTile(v.x, v.y);
-			currentSelected.setSelected(BorderType.WHITE);
-//			for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
-//				currentSelected.getNeighbors().get(i).setSelected(true);
-//			}
-			System.out.println(currentSelected);
-		}catch (Exception e) {
-			System.out.println(e);
-		}	
 		
 		return false;
 	}

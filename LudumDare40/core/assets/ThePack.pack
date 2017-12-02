@@ -3,6 +3,13 @@ ThePack.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+UiBar
+  rotate: false
+  xy: 1, 63
+  size: 800, 150
+  orig: 800, 150
+  offset: 0, 0
+  index: -1
 BlackBorder
   rotate: false
   xy: 1, 5
@@ -12,16 +19,30 @@ BlackBorder
   index: -1
 GrassHex
   rotate: false
-  xy: 67, 5
+  xy: 803, 157
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 WhiteBorder
   rotate: false
-  xy: 133, 5
+  xy: 67, 5
   size: 64, 56
   orig: 64, 56
+  offset: 0, 0
+  index: -1
+Button
+  rotate: false
+  xy: 803, 107
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ButtonPressed
+  rotate: false
+  xy: 869, 165
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
   index: -1
 point
