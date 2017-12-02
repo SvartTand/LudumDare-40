@@ -2,6 +2,7 @@ package com.svarttand.ludumdare40.units;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.map.Hexagon;
@@ -62,28 +63,51 @@ public class Unit {
 		currentPos.setUnit(null);
 		currentPos = newPos;
 		movmentsLeft = movmentsLeft- movmentCost;
-		System.out.println(movmentsLeft);
 		currentPos.setUnit(this);
 		currentPos.setHasUnit(true);
 		updatePos();
 		
 	}
 	
-	public void attack(Unit unit, UHandler handler){
+	public void attack(Hexagon hex, UHandler handlerDef, UHandler handlerAttack){
+		Random random = new Random();
+		int rand1 = random.nextInt((type.getDmg() - 5)) + 5;
+		int rand2 = random.nextInt((type.getDmg() - 7)) + 7;
 		System.out.println("ATTACK!");
-		health -= unit.getType().getDmg();
-		unit.health -= type.getDmg();
-		if (unit.health <= 0) {
-			unit.remove(handler);
+		health -= rand2 * hex.getUnit().getHex().getType().getDefAmplifier();
+		hex.getUnit().health -= rand1 * currentPos.getType().getAttackAmplifier();
+		System.out.println("Results Attacker Hp = " + health + ", dmg dealt: " + rand1);
+		System.out.println("Results Defender Hp = " + hex.getUnit().health + ", dmg dealt: " + rand2);
+		if (health <= 0 && hex.getUnit().health <= 0) {
+			if (health > hex.getUnit().health) {
+				health = 1;
+				hex.getUnit().remove(handlerDef);
+				System.out.println("Dead defender");
+			}else {
+				hex.getUnit().health = 1;
+				remove(handlerAttack);
+				System.out.println("Dead attacker");
+				
+			}
+		}else {
+			
+			if (hex.getUnit().health <= 0) {
+				hex.getUnit().remove(handlerDef);
+				System.out.println("Dead defender");
+			}
+			if (health <= 0) {
+				remove(handlerAttack);
+				System.out.println("Dead attacker");
+			}
+			
 		}
-		if (health <= 0) {
-			remove(handler);
-		}
+		
 		movmentsLeft = 0;
 	}
 
 	public void remove(UHandler handler) {
 		currentPos.setUnit(null);
+		currentPos = null;
 		handler.remove(this);
 		
 	}
@@ -119,7 +143,6 @@ public class Unit {
 		currentPos.setParent(null);
 		
 		while(openSet.size() > 0){
-			System.out.println("in pathFinding");
 			Hexagon current = getWinner(openSet);
 			if (current.isSame(destination)) {
 				while(current != null){
@@ -152,9 +175,6 @@ public class Unit {
 					}
 				}
 			}
-		}
-		for (int i = 0; i < movmentPath.size(); i++) {
-			System.out.println(movmentPath.get(i));
 		}
 		movmentPath.removeLast();
 			
@@ -194,14 +214,18 @@ public class Unit {
 		
 	}
 
-	public void moveNext(EnemyUnitHandler handler) {
+	public void moveNext(EnemyUnitHandler enemyUnitHandler, UnitHandler unitHandler) {
 		while(movmentsLeft > 0){
 			if (!movmentPath.isEmpty()) {
-				if (movmentPath.getLast().getUnit() != null) {
-					attack(movmentPath.getLast().getUnit(), handler);
-				}else{
+				
+				if (movmentPath.getLast().getUnit() == null) {
 					move(movmentPath.getLast(), movmentPath.removeLast().getType().getMovmentCost());
+				}else if (!movmentPath.getLast().getUnit().getType().isEnemy()) {
+					attack(movmentPath.getLast(), unitHandler, enemyUnitHandler);
+				}else {
+					movmentsLeft = 0;
 				}
+				
 				
 			}else {
 				break;
@@ -210,6 +234,13 @@ public class Unit {
 		
 		
 		
+	}
+
+	public boolean isSame(Unit unit) {
+		if (pos.x == unit.getPos().x && pos.y == unit.getPos().y) {
+			return true;
+		}
+		return false;
 	}
 	
 

@@ -31,7 +31,14 @@ public class UnitHandler implements UHandler{
 	}
 	@Override
 	public void remove(Unit unit) {
-		unitList.remove(unit);
+		System.out.println("here");
+		for (int i = 0; i < unitList.size(); i++) {
+			System.out.println(unitList.get(i) + ", " + unit);
+			if (unitList.get(i).isSame(unit)) {
+				unitList.remove(i);
+				System.out.println("removed");
+			}
+		}
 		
 		
 	}

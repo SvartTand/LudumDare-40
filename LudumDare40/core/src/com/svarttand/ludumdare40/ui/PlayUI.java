@@ -205,6 +205,7 @@ public class PlayUI {
 	}
 	
 	public void update(ResourceHandler resources){
+		System.out.println("resource Update");
 		resourcesText.setText("Food: " + resources.getFood() + "\nGold: " + resources.getGold() +"\nWood: " + resources.getWood());
 	}
 	

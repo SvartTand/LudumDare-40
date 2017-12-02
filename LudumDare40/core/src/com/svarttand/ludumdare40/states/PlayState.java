@@ -15,6 +15,7 @@ import com.svarttand.ludumdare40.misc.GameController;
 import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.ui.PlayUI;
 import com.svarttand.ludumdare40.units.EnemyUnitHandler;
+import com.svarttand.ludumdare40.units.UHandler;
 import com.svarttand.ludumdare40.units.UnitHandler;
 
 
@@ -144,12 +145,17 @@ public class PlayState extends State{
 		unitHandler.nextTurn();
 		map.update(resourceHandler);
 		ui.update(resourceHandler);
-		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList());
-		
+		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList(), unitHandler);
+		System.out.println("finished updating");
 	}
 	
 	public ResourceHandler getResources(){
 		return resourceHandler;
+	}
+
+	public UHandler getEnemyUnitHandler() {
+		// TODO Auto-generated method stub
+		return enemyUnitHandler;
 	}
 	
 
