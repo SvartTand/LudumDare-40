@@ -21,6 +21,8 @@ public class Hexagon {
 	private Unit unit;
 	private boolean hasUnit;
 	
+	private int distanceFromStart;
+	
 	public Hexagon(float x, float y, TileType t){
 		posX = x;
 		posY = y;
@@ -30,6 +32,7 @@ public class Hexagon {
 		verticies = new Vector2[6];
 		addVerticies();
 		hasUnit = false;
+		distanceFromStart = 0;
 	}
 	
 	public void addNeighbor(Hexagon hex){
@@ -77,10 +80,18 @@ public class Hexagon {
 		return hasUnit;
 	}
 	
-	public Unit addUnit(UnitType t){
-		unit = new Unit(this, t);
+	public TileType getType(){
+		return type;
+	}
+	
+	public Unit addUnit(UnitType t, int team){
+		unit = new Unit(this, t, team);
 		setHasUnit(true);
 		return unit;
+	}
+	
+	public void setUnit(Unit unit){
+		this.unit = unit;
 	}
 	
 	public void setHasUnit(boolean b){
@@ -94,6 +105,21 @@ public class Hexagon {
 	public ArrayList<Hexagon> getNeighbors() {
 		// TODO Auto-generated method stub
 		return neighbors;
+	}
+	
+	public void setDistance(int dist){
+		distanceFromStart = dist;
+	}
+	
+	public int getDistanceFromStart(){
+		return distanceFromStart;
+	}
+
+	public boolean isSame(Hexagon otherHex) {
+		if (posX == otherHex.getPosX() && posY == otherHex.getPosY()) {
+			return true;
+		}
+		return false;
 	}
 	
 

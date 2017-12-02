@@ -73,11 +73,12 @@ public class PlayUI {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
 	        	 System.out.println("move pressed");
-	        	 if (!moveCommandButton.isChecked()) {
+	        	 
 	        		 if (selectedUnit != null) {
 	 					game.getController().setCommand(Command.MOVE);
+	 					game.getController().setMovmentPossibilities(selectedUnit.getMovmentsLeft());
 	 				}
-	        	 }
+	        	 
 	        	 
 	            }
 	        });
@@ -101,7 +102,7 @@ public class PlayUI {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
 	        	 if (selectedUnit == null && selectedHexagon != null) {
-	        		 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR);
+	        		 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR, 1);
 					game.getUnitHandler().addUnit(selectedUnit);
 					System.out.println("Unit added");
 				}
@@ -122,6 +123,9 @@ public class PlayUI {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(atlas.findRegion("UiBar"), 0, 0);
+		if (selectedUnit != null) {
+			batch.draw(atlas.findRegion(selectedUnit.getPath()),Application.V_WIDTH*0.6f, Application.V_HEIGHT*0.11f);
+		}
 		batch.end();
 	}
 	

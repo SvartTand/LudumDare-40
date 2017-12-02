@@ -1,5 +1,7 @@
 package com.svarttand.ludumdare40.misc;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -13,12 +15,17 @@ public class GameController implements InputProcessor{
 	
 	private PlayState game;
 	private Hexagon currentSelected;
+	private Hexagon previousSelected;
+	
+	private ArrayList<Hexagon> possiblePlaces;
 	
 	private Command currentCommand;
 	
 	public GameController(PlayState game) {
 		this.game = game;
 		currentCommand = Command.NO_COMMAND;
+		possiblePlaces = new ArrayList<Hexagon>();
+		previousSelected = null;
 	}
 
 	@Override
@@ -44,12 +51,11 @@ public class GameController implements InputProcessor{
 		if (screenY < Gdx.graphics.getHeight()*0.8125f) {
 			Vector2 v  = convertToGameCordinates(screenX, screenY);
 			System.out.println(v.x + ", " + v.y);
+			if (currentSelected != null) {
+				currentSelected.setSelected(BorderType.NULL);
+				previousSelected = currentSelected;
+			}
 			if (currentCommand == Command.NO_COMMAND) {
-				
-				if (currentSelected != null) {
-					currentSelected.setSelected(BorderType.NULL);
-				}
-				
 				try {
 					currentSelected = game.getMap().getTileWithPoint(v);
 					currentSelected.setSelected(BorderType.WHITE);
@@ -66,7 +72,29 @@ public class GameController implements InputProcessor{
 				
 			}
 			if (currentCommand == Command.MOVE) {
-				
+				try {
+					currentSelected = game.getMap().getTileWithPoint(v);
+					for (int i = 0; i < possiblePlaces.size(); i++) {
+						
+						if (possiblePlaces.get(i).isSame(currentSelected)) {
+							previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost());
+						}else{
+							possiblePlaces.get(i).setSelected(BorderType.NULL);
+						}
+						
+					}
+					currentSelected.setSelected(BorderType.WHITE);
+					currentCommand = Command.NO_COMMAND;
+					game.getUI().resetButtons();
+					possiblePlaces.clear();
+//					for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
+//						currentSelected.getNeighbors().get(i).setSelected(BorderType.WHITE);
+//					}
+					game.getUI().setHex(currentSelected);
+					System.out.println(currentSelected);
+				}catch (Exception e) {
+					System.out.println(e);
+				}
 			}
 			game.getUI().resetButtons();
 		}
@@ -122,6 +150,47 @@ public class GameController implements InputProcessor{
 	
 	public void setCommand(Command command){
 		currentCommand = command;
+	}
+
+	public void setMovmentPossibilities(int movmentsLeft) {
+		System.out.println("here!");
+		ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
+		for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
+			currentSelected.getNeighbors().get(i).setDistance(currentSelected.getNeighbors().get(i).getType().getMovmentCost());
+			if (currentSelected.getNeighbors().get(i).getUnit() == null) {
+				possiblePlaces.add(currentSelected.getNeighbors().get(i));
+			}
+			
+		}
+//		Hexagon hexTemp;
+//		while(!temp.isEmpty()){
+//			hexTemp = temp.get(0);
+//			if (temp.get(0).getDistanceFromStart() == movmentsLeft && temp.get(0).getUnit() == null) {
+//				possiblePlaces.add(temp.get(0));
+//				System.out.println("added");
+//				temp.remove(0);
+//			}else if (temp.get(0).getDistanceFromStart() < movmentsLeft) {
+//				for (int i = 0; i < temp.get(0).getNeighbors().size(); i++) {
+//					if (temp.get(0).getNeighbors().get(i).getDistanceFromStart() == 0 && !temp.get(0).getNeighbors().get(i).isSame(currentSelected)) {
+//						temp.get(0).getNeighbors().get(i).setDistance(temp.get(0).getNeighbors().get(i).getType().getMovmentCost());
+//						temp.add(temp.get(0).getNeighbors().get(i));
+//						if (temp.get(0).getUnit() == null) {
+//							possiblePlaces.add(temp.get(0));
+//							System.out.println("added");
+//						}
+//						temp.remove(0);
+//					}
+//				}
+//			}else if (temp.get(0).getDistanceFromStart() > movmentsLeft) {
+//				temp.remove(0);
+//			}
+//		}
+		System.out.println("loop passed");
+		
+		for (int i = 0; i < possiblePlaces.size(); i++) {
+			possiblePlaces.get(i).setSelected(BorderType.WHITE);
+		}
+		
 	}
 
 }
