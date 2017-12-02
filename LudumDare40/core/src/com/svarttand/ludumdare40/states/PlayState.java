@@ -129,4 +129,9 @@ public class PlayState extends State{
 		return controller;
 	}
 
+	public void nextTurn() {
+		unitHandler.nextTurn();
+		
+	}
+
 }

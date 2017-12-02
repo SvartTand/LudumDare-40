@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -112,6 +113,24 @@ public class PlayUI {
 	    buttonList.add(BuildCommandButton);
 	    stage.addActor(BuildCommandButton);
 	    
+	    TextButtonStyle styleTurn = new TextButton.TextButtonStyle();
+	    styleTurn.font = font;
+	    styleTurn.up = skin.getDrawable("EndTurnButton");
+	    styleTurn.down = skin.getDrawable("EndTurnButtonPressed");
+	    styleTurn.checked = skin.getDrawable("EndTurnButtonPressed");
+	    
+	    endTurnButton = new TextButton("Next Turn", styleTurn);
+	    endTurnButton.setPosition(Application.V_WIDTH*0.5f - endTurnButton.getWidth()*0.5f, Application.V_HEIGHT*0.12f);
+	    endTurnButton.addListener( new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	        	 System.out.println("Next turn!");
+	        	 game.nextTurn();
+	        	 endTurnButton.setChecked(false);
+	            }
+	        });
+	    stage.addActor(endTurnButton);
+	    
 	}
 	
 	public void update(){
@@ -125,6 +144,9 @@ public class PlayUI {
 		batch.draw(atlas.findRegion("UiBar"), 0, 0);
 		if (selectedUnit != null) {
 			batch.draw(atlas.findRegion(selectedUnit.getPath()),Application.V_WIDTH*0.6f, Application.V_HEIGHT*0.11f);
+		}
+		if (selectedHexagon != null) {
+			batch.draw(atlas.findRegion(selectedHexagon.getPath()),Application.V_WIDTH*0.02f, Application.V_HEIGHT*0.1f);
 		}
 		batch.end();
 	}

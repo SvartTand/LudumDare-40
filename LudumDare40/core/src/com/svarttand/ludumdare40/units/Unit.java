@@ -48,6 +48,7 @@ public class Unit {
 		currentPos.setUnit(null);
 		currentPos = newPos;
 		movmentsLeft = movmentsLeft- movmentCost;
+		System.out.println(movmentsLeft);
 		currentPos.setUnit(this);
 		currentPos.setHasUnit(true);
 		updatePos();

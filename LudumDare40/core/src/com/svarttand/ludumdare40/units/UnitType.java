@@ -1,7 +1,7 @@
 package com.svarttand.ludumdare40.units;
 
 public enum UnitType {
-	WARRIOR("Warrior", 1, 1, 20,10);
+	WARRIOR("Warrior", 2, 1, 20,10);
 	
 	private String path;
 	private int movments;

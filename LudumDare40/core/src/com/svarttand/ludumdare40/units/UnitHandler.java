@@ -23,4 +23,11 @@ public class UnitHandler {
 		}
 	}
 
+	public void nextTurn() {
+		for (int i = 0; i < unitList.size(); i++) {
+			unitList.get(i).update();
+		}
+		
+	}
+
 }

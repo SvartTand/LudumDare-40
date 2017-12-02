@@ -157,7 +157,7 @@ public class GameController implements InputProcessor{
 		ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
 		for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
 			currentSelected.getNeighbors().get(i).setDistance(currentSelected.getNeighbors().get(i).getType().getMovmentCost());
-			if (currentSelected.getNeighbors().get(i).getUnit() == null) {
+			if (currentSelected.getNeighbors().get(i).getUnit() == null && currentSelected.getNeighbors().get(i).getType().getMovmentCost() <= movmentsLeft) {
 				possiblePlaces.add(currentSelected.getNeighbors().get(i));
 			}
 			

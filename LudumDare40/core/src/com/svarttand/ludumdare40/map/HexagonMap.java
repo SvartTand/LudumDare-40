@@ -98,9 +98,6 @@ public class HexagonMap {
 //						batch.draw(atlas.findRegion("point"), placeholder.getVerticies()[j2].x, placeholder.getVerticies()[j2].y);
 //					}
 				}
-				if (map[i][j].getUnit()!= null) {
-					batch.draw(atlas.findRegion(map[i][j].getUnit().getPath()),map[i][j].getUnit().getPos().x, map[i][j].getUnit().getPos().y);
-				}
 			}
 		}
 		
