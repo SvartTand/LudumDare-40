@@ -1,0 +1,26 @@
+
+ThePack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+BlackBorder
+  rotate: false
+  xy: 1, 1
+  size: 64, 56
+  orig: 64, 56
+  offset: 0, 0
+  index: -1
+GrassHex
+  rotate: false
+  xy: 67, 1
+  size: 64, 56
+  orig: 64, 56
+  offset: 0, 0
+  index: -1
+WhiteBorder
+  rotate: false
+  xy: 133, 1
+  size: 64, 56
+  orig: 64, 56
+  offset: 0, 0
+  index: -1
