@@ -14,6 +14,7 @@ import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.misc.GameController;
 import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.ui.PlayUI;
+import com.svarttand.ludumdare40.units.EnemyUnitHandler;
 import com.svarttand.ludumdare40.units.UnitHandler;
 
 
@@ -33,7 +34,7 @@ public class PlayState extends State{
 	private UnitHandler unitHandler;
 	
 	private ResourceHandler resourceHandler;
-	
+	private EnemyUnitHandler enemyUnitHandler;
 	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -55,6 +56,7 @@ public class PlayState extends State{
 		cam.position.y = Application.V_HEIGHT*0.3f;
 		
 		resourceHandler = new ResourceHandler(5,5,5);
+		enemyUnitHandler = new EnemyUnitHandler();
 	}
 
 	@Override
@@ -141,7 +143,7 @@ public class PlayState extends State{
 		unitHandler.nextTurn();
 		map.update(resourceHandler);
 		ui.update(resourceHandler);
-		
+		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits());
 		
 	}
 	

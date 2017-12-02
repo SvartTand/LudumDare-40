@@ -4,41 +4,28 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.svarttand.ludumdare40.map.Hexagon;
 
-public class UnitHandler {
+public class EnemyUnitHandler {
 	
-	ArrayList<Unit> unitList;
+	private ArrayList<Unit> unitList;
 	
-	public UnitHandler(){
+	public EnemyUnitHandler(){
 		unitList = new ArrayList<Unit>();
 	}
 	
-	public void addUnit(Unit unit){
-		unitList.add(unit);
+	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList){
+		
+	}
+	
+	private void addUnit(){
+		
 	}
 	
 	public void render(SpriteBatch batch, TextureAtlas atlas){
 		for (int i = 0; i < unitList.size(); i++) {
 			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
 		}
-	}
-
-	public void nextTurn() {
-		for (int i = 0; i < unitList.size(); i++) {
-			unitList.get(i).update();
-		}
-		
-	}
-
-	public void remove(Unit unit) {
-		System.out.println(unitList.remove(unit));
-		
-		
-	}
-
-	public ArrayList<Unit> getUnits() {
-		// TODO Auto-generated method stub
-		return unitList;
 	}
 
 }

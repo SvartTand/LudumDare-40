@@ -42,6 +42,10 @@ public class Unit {
 		// TODO Auto-generated method stub
 		return movmentsLeft;
 	}
+	
+	public UnitType getType(){
+		return type;
+	}
 
 	public void move(Hexagon newPos, int movmentCost) {
 		currentPos.setHasUnit(false);
@@ -52,6 +56,12 @@ public class Unit {
 		currentPos.setUnit(this);
 		currentPos.setHasUnit(true);
 		updatePos();
+		
+	}
+
+	public void remove(UnitHandler handler) {
+		currentPos.setUnit(null);
+		handler.remove(this);
 		
 	}
 	

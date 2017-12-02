@@ -150,4 +150,14 @@ public class HexagonMap {
 		}
 	}
 
+	public void addCity(Hexagon selectedHexagon) {
+		cityList.add(selectedHexagon);
+		
+	}
+
+	public ArrayList<Hexagon> getCityList() {
+		// TODO Auto-generated method stub
+		return cityList;
+	}
+
 }

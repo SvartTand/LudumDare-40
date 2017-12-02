@@ -158,6 +158,27 @@ public class PlayUI {
 	    buttonList.add(makeWarriorButton);
 	    stage.addActor(makeWarriorButton);
 	    
+	    BuildCommandButton = new TextButton("Build", style);
+	    BuildCommandButton.setPosition(Application.V_WIDTH*0.9f, Application.V_HEIGHT*0.11f);
+	    BuildCommandButton.addListener( new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	        	 System.out.println("build pressed");
+	        	 
+	        		 if (selectedUnit != null && selectedUnit.getType() == UnitType.WORKER) {
+	 					selectedHexagon.setType(TileType.CITY);
+	 					game.getMap().addCity(selectedHexagon);
+	 					selectedUnit.remove(game.getUnitHandler());
+	 					selectedUnit = null;
+	 					updateButtons();
+	 				}
+	        	 
+	        	 
+	            }
+	        });
+	    buttonList.add(BuildCommandButton);
+	    stage.addActor(BuildCommandButton);
+	    
 	    TextButtonStyle styleTurn = new TextButton.TextButtonStyle();
 	    styleTurn.font = font;
 	    styleTurn.up = skin.getDrawable("EndTurnButton");
@@ -179,6 +200,7 @@ public class PlayUI {
 		attackCommandButton.setVisible(false);
 		makeBuilderButton.setVisible(false);
 		makeWarriorButton.setVisible(false);
+		BuildCommandButton.setVisible(false);
 	    
 	}
 	
@@ -228,9 +250,13 @@ public class PlayUI {
 		if (selectedUnit == null) {
 			moveCommandButton.setVisible(false);
 			attackCommandButton.setVisible(false);
+			BuildCommandButton.setVisible(false);
 		}else{
 			moveCommandButton.setVisible(true);
 			attackCommandButton.setVisible(true);
+			if (selectedUnit.getType() == UnitType.WORKER) {
+				BuildCommandButton.setVisible(true);
+			}
 		}
 	}
 
