@@ -2,6 +2,8 @@ package com.svarttand.ludumdare40.map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
+
 
 public class HexagonMap {
 	
@@ -82,14 +84,30 @@ public class HexagonMap {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
 				batch.draw(atlas.findRegion(map[i][j].getPath()), map[i][j].posX, map[i][j].posY);
-//				if (map[i][j].isSelected()) {
-//					placeholder = map[i][j];
-//					//System.out.println("Drawing selected at " + map[i][j].getX() + ", " +  map[i][j].getY());
-//					batch.draw(atlas.findRegion("SelectedIndicator2"), map[i][j].getX(), map[i][j].getY());
-//					
-//				}
+				if (map[i][j].getBorderType() != BorderType.NULL) {
+					placeholder = map[i][j];
+					//System.out.println("Drawing selected at " + map[i][j].getX() + ", " +  map[i][j].getY());
+					batch.draw(atlas.findRegion(map[i][j].getBorderType().getPath()), map[i][j].posX, map[i][j].posY);
+					for (int j2 = 0; j2 < placeholder.getVerticies().length; j2++) {
+						batch.draw(atlas.findRegion("point"), placeholder.getVerticies()[j2].x, placeholder.getVerticies()[j2].y);
+					}
+				}
 			}
 		}
+	}
+
+	public Hexagon getTileWithPoint(Vector2 point) {
+		float height = (float) ((sizeY*0.477) * HEX_HEIGHT - point.y);
+		point.y = height;
+		System.out.println(point.y);
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				if (PolygonChecker.inside_convex_polygon(point, map[i][j].getVerticies())) {
+					return map[i][j];
+				}
+			}
+		}
+		return null;
 	}
 
 }
