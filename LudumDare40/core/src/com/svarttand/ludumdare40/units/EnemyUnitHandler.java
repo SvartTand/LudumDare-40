@@ -1,6 +1,7 @@
 package com.svarttand.ludumdare40.units;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -14,12 +15,25 @@ public class EnemyUnitHandler {
 		unitList = new ArrayList<Unit>();
 	}
 	
-	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList){
-		
+	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList, ArrayList<Hexagon> campList){
+		for (int i = 0; i < unitList.size(); i++) {
+			unitList.get(i).update();
+			unitList.get(i).calculateRoute(cityList, friendlyUnitList);
+			unitList.get(i).moveNext();
+		}
+		addUnit(campList);
 	}
 	
-	private void addUnit(){
-		
+	private void addUnit(ArrayList<Hexagon> campList){
+		Random random = new Random();
+		for (int i = 0; i < campList.size(); i++) {
+			int rand = random.nextInt(6);
+			if (rand == 2) {
+				unitList.add(campList.get(i).addUnit(UnitType.WARRIOR_ENEMY));
+				System.out.println("Unit Added!");
+			}
+			
+		}
 	}
 	
 	public void render(SpriteBatch batch, TextureAtlas atlas){

@@ -114,7 +114,7 @@ public class PlayUI {
 	        		 if (game.getResources().getFood()>= UnitType.WORKER.getFoodCost() && 
 	        			 game.getResources().getWood()>= UnitType.WORKER.getWoodCost() &&
 	        			 game.getResources().getGold()>= UnitType.WORKER.getGoldCost()) {
-	        			 selectedUnit = selectedHexagon.addUnit(UnitType.WORKER, 1);
+	        			 selectedUnit = selectedHexagon.addUnit(UnitType.WORKER);
 	 					game.getUnitHandler().addUnit(selectedUnit);
 	 					System.out.println("Unit added");
 	 					updateButtons();
@@ -141,7 +141,7 @@ public class PlayUI {
 	        		 if (game.getResources().getFood()>= UnitType.WARRIOR.getFoodCost() && 
 		        			 game.getResources().getWood()>= UnitType.WARRIOR.getWoodCost() &&
 		        			 game.getResources().getGold()>= UnitType.WARRIOR.getGoldCost()) {
-		        			 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR, 1);
+		        			 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR);
 		 					game.getUnitHandler().addUnit(selectedUnit);
 		 					System.out.println("Unit added");
 		 					updateButtons();

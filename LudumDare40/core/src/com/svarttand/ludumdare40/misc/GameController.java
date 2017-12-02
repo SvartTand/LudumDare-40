@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.BorderType;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.map.TileType;
 import com.svarttand.ludumdare40.states.PlayState;
 
 
@@ -78,6 +79,10 @@ public class GameController implements InputProcessor{
 						
 						if (possiblePlaces.get(i).isSame(currentSelected)) {
 							previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost());
+							if (currentSelected.getType() == TileType.CAMP) {
+								currentSelected.setType(currentSelected.getPreviousType());
+								game.getMap().removeCamp(currentSelected);
+							}
 						}else{
 							possiblePlaces.get(i).setSelected(BorderType.NULL);
 						}

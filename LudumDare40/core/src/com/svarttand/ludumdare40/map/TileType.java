@@ -3,10 +3,12 @@ package com.svarttand.ludumdare40.map;
 public enum TileType {
 	GRASS("GrassHex", 1,0,1,0),
 	CITY("CityHex", 1,1,1,1),
-	GOLD("GoldHex", 1,5,0,0),
-	FOOD("FoodHex", 1,0,5,0),
+	GOLD("GoldHex", 1,2,0,0),
+	FOOD("FoodHex", 1,0,2,0),
 	DESSERT("DessertHex", 2,0,0,0),
-	WOOD("WoodHex", 2,0,1,5);
+	WOOD("WoodHex", 2,0,1,2),
+	CAMP("CampHex", 2,0,0,0);
+	
 	
 	private String path;
 	private int movmentCost;

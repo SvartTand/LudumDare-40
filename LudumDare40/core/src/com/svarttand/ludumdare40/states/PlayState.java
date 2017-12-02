@@ -100,6 +100,7 @@ public class PlayState extends State{
 		batch.begin();
 		map.render(batch, textureAtlas);
 		unitHandler.render(batch, textureAtlas);
+		enemyUnitHandler.render(batch, textureAtlas);
 		batch.end();
 		ui.render(batch, textureAtlas);
 		ui.getStage().draw();
@@ -143,7 +144,7 @@ public class PlayState extends State{
 		unitHandler.nextTurn();
 		map.update(resourceHandler);
 		ui.update(resourceHandler);
-		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits());
+		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList());
 		
 	}
 	

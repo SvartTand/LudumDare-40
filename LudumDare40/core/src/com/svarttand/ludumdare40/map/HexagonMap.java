@@ -22,15 +22,19 @@ public class HexagonMap {
 	private Vector2 startPos;
 	
 	private ArrayList<Hexagon> cityList;
+	private ArrayList<Hexagon> campList;
+	
+	private Random random;
 	
 	
 	public HexagonMap(int x, int y){
 		sizeX = x;
 		sizeY = y;
 		map = new Hexagon[x][y];
-		Random random = new Random();
+		random = new Random();
 		createMap(random);
 		cityList = new ArrayList<Hexagon>();
+		campList = new ArrayList<Hexagon>();
 		int randx = random.nextInt((sizeX - 5)) + 3;
 		int randy = random.nextInt((sizeY - 5)) + 3;
 		
@@ -143,11 +147,30 @@ public class HexagonMap {
 	}
 	
 	public void update(ResourceHandler handler){
+		int randx = random.nextInt((sizeX - 5)) + 3;
+		int randy = random.nextInt((sizeY - 5)) + 3;
+		
+		Hexagon temp = map[randx][randy];
+		boolean notPossibleLocation = false;
 		for (int i = 0; i < cityList.size(); i++) {
+			handler.addTilesResourcers(cityList.get(i));
+			if (temp.isSame(cityList.get(i))) {
+				notPossibleLocation = true;
+			}
 			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
 				handler.addTilesResourcers(cityList.get(i).getNeighbors().get(j));
+				if (temp.isSame(cityList.get(i).getNeighbors().get(j))) {
+					notPossibleLocation = true;
+				}
 			}
 		}
+		if (!notPossibleLocation && campList.size() <= handler.getGold()*0.08f) {
+			temp.setType(TileType.CAMP);
+			campList.add(temp);
+			System.out.println("Added camp");
+		}
+			
+		
 	}
 
 	public void addCity(Hexagon selectedHexagon) {
@@ -158,6 +181,15 @@ public class HexagonMap {
 	public ArrayList<Hexagon> getCityList() {
 		// TODO Auto-generated method stub
 		return cityList;
+	}
+	
+	public ArrayList<Hexagon> getCampList(){
+		return campList;
+	}
+
+	public void removeCamp(Hexagon currentPos) {
+		campList.remove(currentPos);
+		
 	}
 
 }

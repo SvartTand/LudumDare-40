@@ -15,6 +15,7 @@ public class Hexagon {
 	
 	private TileType type;
 	private BorderType b_Type;
+	private TileType previousType;
 	
 	private Vector2[] verticies;
 	
@@ -22,12 +23,14 @@ public class Hexagon {
 	private boolean hasUnit;
 	
 	private int distanceFromStart;
+	private Hexagon parent;
 	
 	public Hexagon(float x, float y, TileType t){
 		posX = x;
 		posY = y;
 		neighbors = new ArrayList<Hexagon>();
 		type = t;
+		previousType = t;
 		b_Type = BorderType.NULL;
 		verticies = new Vector2[6];
 		addVerticies();
@@ -84,8 +87,8 @@ public class Hexagon {
 		return type;
 	}
 	
-	public Unit addUnit(UnitType t, int team){
-		unit = new Unit(this, t, team);
+	public Unit addUnit(UnitType t){
+		unit = new Unit(this, t);
 		setHasUnit(true);
 		return unit;
 	}
@@ -125,6 +128,18 @@ public class Hexagon {
 	public void setType(TileType tileType) {
 		type = tileType;
 		
+	}
+	
+	public void setParent(Hexagon parent){
+		this.parent = parent;
+	}
+	
+	public Hexagon getParent(){
+		return parent;
+	}
+
+	public TileType getPreviousType() {
+		return previousType;
 	}
 	
 
