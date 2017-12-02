@@ -72,17 +72,24 @@ public class GameController implements InputProcessor{
 			if (currentCommand == Command.ATTACK) {
 				
 			}
+			
+			
 			if (currentCommand == Command.MOVE) {
 				try {
 					currentSelected = game.getMap().getTileWithPoint(v);
 					for (int i = 0; i < possiblePlaces.size(); i++) {
 						
 						if (possiblePlaces.get(i).isSame(currentSelected)) {
-							previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost());
-							if (currentSelected.getType() == TileType.CAMP) {
-								currentSelected.setType(currentSelected.getPreviousType());
-								game.getMap().removeCamp(currentSelected);
+							if (currentSelected.getUnit() != null) {
+								previousSelected.getUnit().attack(currentSelected.getUnit(), game.getUnitHandler());
+							}else{
+								previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost());
+								if (currentSelected.getType() == TileType.CAMP) {
+									currentSelected.setType(currentSelected.getPreviousType());
+									game.getMap().removeCamp(currentSelected);
+								}
 							}
+							
 						}else{
 							possiblePlaces.get(i).setSelected(BorderType.NULL);
 						}
@@ -162,7 +169,7 @@ public class GameController implements InputProcessor{
 		ArrayList<Hexagon> temp = new ArrayList<Hexagon>();
 		for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
 			currentSelected.getNeighbors().get(i).setDistance(currentSelected.getNeighbors().get(i).getType().getMovmentCost());
-			if (currentSelected.getNeighbors().get(i).getUnit() == null && currentSelected.getNeighbors().get(i).getType().getMovmentCost() <= movmentsLeft) {
+			if ((currentSelected.getNeighbors().get(i).getUnit() == null || currentSelected.getNeighbors().get(i).getUnit().getType().isEnemy())&& currentSelected.getNeighbors().get(i).getType().getMovmentCost() <= movmentsLeft) {
 				possiblePlaces.add(currentSelected.getNeighbors().get(i));
 			}
 			

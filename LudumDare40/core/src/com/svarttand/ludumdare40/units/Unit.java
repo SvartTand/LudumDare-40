@@ -68,8 +68,21 @@ public class Unit {
 		updatePos();
 		
 	}
+	
+	public void attack(Unit unit, UHandler handler){
+		System.out.println("ATTACK!");
+		health -= unit.getType().getDmg();
+		unit.health -= type.getDmg();
+		if (unit.health <= 0) {
+			unit.remove(handler);
+		}
+		if (health <= 0) {
+			remove(handler);
+		}
+		movmentsLeft = 0;
+	}
 
-	public void remove(UnitHandler handler) {
+	public void remove(UHandler handler) {
 		currentPos.setUnit(null);
 		handler.remove(this);
 		
@@ -181,10 +194,15 @@ public class Unit {
 		
 	}
 
-	public void moveNext() {
+	public void moveNext(EnemyUnitHandler handler) {
 		while(movmentsLeft > 0){
 			if (!movmentPath.isEmpty()) {
-				move(movmentPath.getLast(), movmentPath.removeLast().getType().getMovmentCost());
+				if (movmentPath.getLast().getUnit() != null) {
+					attack(movmentPath.getLast().getUnit(), handler);
+				}else{
+					move(movmentPath.getLast(), movmentPath.removeLast().getType().getMovmentCost());
+				}
+				
 			}else {
 				break;
 			}

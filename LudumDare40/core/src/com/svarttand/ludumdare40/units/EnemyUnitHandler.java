@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.svarttand.ludumdare40.map.Hexagon;
 
-public class EnemyUnitHandler {
+public class EnemyUnitHandler implements UHandler{
 	
 	private ArrayList<Unit> unitList;
 	
@@ -19,7 +19,7 @@ public class EnemyUnitHandler {
 		for (int i = 0; i < unitList.size(); i++) {
 			unitList.get(i).update();
 			unitList.get(i).calculateRoute(cityList, friendlyUnitList);
-			unitList.get(i).moveNext();
+			unitList.get(i).moveNext(this);
 		}
 		addUnit(campList);
 	}
@@ -35,11 +35,17 @@ public class EnemyUnitHandler {
 			
 		}
 	}
-	
+	@Override
 	public void render(SpriteBatch batch, TextureAtlas atlas){
 		for (int i = 0; i < unitList.size(); i++) {
 			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
 		}
+	}
+
+	@Override
+	public void remove(Unit unit) {
+		unitList.remove(unit);
+		
 	}
 
 }

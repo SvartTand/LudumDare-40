@@ -1,11 +1,11 @@
 package com.svarttand.ludumdare40.units;
 
 public enum UnitType {
-	WARRIOR("Warrior", 2, 1, 20,10, 5,5,0),
-	WORKER("Worker", 2,0,10,0, 5,10,0),
-	ARCHER("Archer", 2, 2,15,5,5,10,0),
-	ARCHER_ENEMY("ArcherEnemy", 2, 2,15,5,5,10,0),
-	WARRIOR_ENEMY("WarriorEnemy", 2, 1, 20,10, 5,5,0);
+	WARRIOR("Warrior", 2, 1, 20,10, 5,5,0,false),
+	WORKER("Worker", 2,0,10,0, 5,10,0,false),
+	ARCHER("Archer", 2, 2,15,5,5,10,0,false),
+	ARCHER_ENEMY("ArcherEnemy", 2, 2,15,5,5,10,0, true),
+	WARRIOR_ENEMY("WarriorEnemy", 2, 1, 20,10, 5,5,0, true);
 	
 	private String path;
 	private int movments;
@@ -15,8 +15,9 @@ public enum UnitType {
 	private int foodCost;
 	private int woodCost;
 	private int goldCost;
+	private boolean enemy;
 	
-	private UnitType(String p, int m, int r, int h, int d, int food, int wood, int gold){
+	private UnitType(String p, int m, int r, int h, int d, int food, int wood, int gold, boolean e){
 		path = p;
 		movments = m;
 		range = r;
@@ -25,6 +26,7 @@ public enum UnitType {
 		foodCost = food;
 		goldCost = gold;
 		woodCost = wood;
+		enemy = e;
 	}
 
 	public int getFoodCost() {
@@ -57,6 +59,11 @@ public enum UnitType {
 
 	public int getDmg() {
 		return dmg;
+	}
+
+	public boolean isEnemy() {
+		// TODO Auto-generated method stub
+		return enemy;
 	}
 	
 	

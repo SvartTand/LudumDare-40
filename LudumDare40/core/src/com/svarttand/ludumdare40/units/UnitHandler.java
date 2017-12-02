@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class UnitHandler {
+public class UnitHandler implements UHandler{
 	
 	ArrayList<Unit> unitList;
 	
@@ -16,7 +16,7 @@ public class UnitHandler {
 	public void addUnit(Unit unit){
 		unitList.add(unit);
 	}
-	
+	@Override
 	public void render(SpriteBatch batch, TextureAtlas atlas){
 		for (int i = 0; i < unitList.size(); i++) {
 			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
@@ -29,9 +29,9 @@ public class UnitHandler {
 		}
 		
 	}
-
+	@Override
 	public void remove(Unit unit) {
-		System.out.println(unitList.remove(unit));
+		unitList.remove(unit);
 		
 		
 	}
