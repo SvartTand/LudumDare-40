@@ -5,49 +5,56 @@ filter: Nearest,Nearest
 repeat: none
 UiBar
   rotate: false
-  xy: 1, 63
+  xy: 1, 93
   size: 800, 150
   orig: 800, 150
   offset: 0, 0
   index: -1
 BlackBorder
   rotate: false
-  xy: 1, 5
+  xy: 1, 35
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 GrassHex
   rotate: false
-  xy: 803, 157
+  xy: 803, 187
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 WhiteBorder
   rotate: false
-  xy: 67, 5
+  xy: 67, 35
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Button
   rotate: false
-  xy: 803, 107
+  xy: 803, 137
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ButtonPressed
   rotate: false
-  xy: 869, 165
+  xy: 869, 195
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
-point
+Warrior
   rotate: false
   xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+point
+  rotate: false
+  xy: 133, 89
   size: 2, 2
   orig: 2, 2
   offset: 0, 0

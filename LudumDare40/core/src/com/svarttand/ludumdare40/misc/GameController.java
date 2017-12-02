@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.Application;
-import com.svarttand.ludumdare40.command.Command;
 import com.svarttand.ludumdare40.map.BorderType;
 import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.states.PlayState;
@@ -19,6 +18,7 @@ public class GameController implements InputProcessor{
 	
 	public GameController(PlayState game) {
 		this.game = game;
+		currentCommand = Command.NO_COMMAND;
 	}
 
 	@Override
@@ -43,21 +43,32 @@ public class GameController implements InputProcessor{
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (screenY < Gdx.graphics.getHeight()*0.8125f) {
 			Vector2 v  = convertToGameCordinates(screenX, screenY);
-			if (currentSelected != null) {
-				currentSelected.setSelected(BorderType.NULL);
-			}
 			System.out.println(v.x + ", " + v.y);
-			try {
-				currentSelected = game.getMap().getTileWithPoint(v);
-				//currentSelected = game.getMap().getTile(v.x, v.y);
-				currentSelected.setSelected(BorderType.WHITE);
-//				for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
-//					currentSelected.getNeighbors().get(i).setSelected(true);
-//				}
-				System.out.println(currentSelected);
-			}catch (Exception e) {
-				System.out.println(e);
+			if (currentCommand == Command.NO_COMMAND) {
+				
+				if (currentSelected != null) {
+					currentSelected.setSelected(BorderType.NULL);
+				}
+				
+				try {
+					currentSelected = game.getMap().getTileWithPoint(v);
+					currentSelected.setSelected(BorderType.WHITE);
+//					for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
+//						currentSelected.getNeighbors().get(i).setSelected(BorderType.WHITE);
+//					}
+					game.getUI().setHex(currentSelected);
+					System.out.println(currentSelected);
+				}catch (Exception e) {
+					System.out.println(e);
+				}
 			}
+			if (currentCommand == Command.ATTACK) {
+				
+			}
+			if (currentCommand == Command.MOVE) {
+				
+			}
+			game.getUI().resetButtons();
 		}
 		
 		return false;
@@ -107,6 +118,10 @@ public class GameController implements InputProcessor{
 		 v.y = h;
 		
 		return v;
+	}
+	
+	public void setCommand(Command command){
+		currentCommand = command;
 	}
 
 }

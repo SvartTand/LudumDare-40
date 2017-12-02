@@ -3,6 +3,8 @@ package com.svarttand.ludumdare40.map;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.svarttand.ludumdare40.units.Unit;
+import com.svarttand.ludumdare40.units.UnitType;
 
 public class Hexagon {
 	
@@ -16,6 +18,9 @@ public class Hexagon {
 	
 	private Vector2[] verticies;
 	
+	private Unit unit;
+	private boolean hasUnit;
+	
 	public Hexagon(float x, float y, TileType t){
 		posX = x;
 		posY = y;
@@ -24,6 +29,7 @@ public class Hexagon {
 		b_Type = BorderType.NULL;
 		verticies = new Vector2[6];
 		addVerticies();
+		hasUnit = false;
 	}
 	
 	public void addNeighbor(Hexagon hex){
@@ -42,6 +48,13 @@ public class Hexagon {
 		return b_Type;
 	}
 	
+	public float getPosX(){
+		return posX;
+	}
+	public float getPosY(){
+		return posY;
+	}
+	
 	private void addVerticies(){
 		verticies[0] = new Vector2(posX + HexagonMap.HEX_WIDTH, posY + HexagonMap.HEX_HEIGHT*0.5f);
 		verticies[1] = new Vector2(posX + (HexagonMap.HEX_WIDTH * 0.75f), posY);
@@ -58,6 +71,29 @@ public class Hexagon {
 	
 	public String toString(){
 		return type.getPath() + ", " + posX + ", " + posY;
+	}
+	
+	public boolean hasUnit(){
+		return hasUnit;
+	}
+	
+	public Unit addUnit(UnitType t){
+		unit = new Unit(this, t);
+		setHasUnit(true);
+		return unit;
+	}
+	
+	public void setHasUnit(boolean b){
+		hasUnit = b;
+	}
+
+	public Unit getUnit() {
+		return unit;
+	}
+
+	public ArrayList<Hexagon> getNeighbors() {
+		// TODO Auto-generated method stub
+		return neighbors;
 	}
 	
 

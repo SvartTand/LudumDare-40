@@ -1,5 +1,7 @@
 package com.svarttand.ludumdare40.ui;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,9 +17,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.misc.Command;
 import com.svarttand.ludumdare40.misc.GameController;
 import com.svarttand.ludumdare40.states.PlayState;
 import com.svarttand.ludumdare40.units.Unit;
+import com.svarttand.ludumdare40.units.UnitType;
 
 public class PlayUI {
 	
@@ -45,10 +49,14 @@ public class PlayUI {
 	private Unit selectedUnit;
 	private Hexagon selectedHexagon;
 	 
-	public PlayUI(TextureAtlas atlas, PlayState state){
+	private ArrayList<Button> buttonList;
+	
+	public PlayUI(TextureAtlas atlas, final PlayState game){
 		camera = new OrthographicCamera();
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, camera);
 		stage = new Stage(viewport);
+		
+		buttonList = new ArrayList<Button>();
 		
 		font = new BitmapFont();
 	    skin = new Skin(atlas);
@@ -65,8 +73,15 @@ public class PlayUI {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
 	        	 System.out.println("move pressed");
+	        	 if (!moveCommandButton.isChecked()) {
+	        		 if (selectedUnit != null) {
+	 					game.getController().setCommand(Command.MOVE);
+	 				}
+	        	 }
+	        	 
 	            }
 	        });
+	    buttonList.add(moveCommandButton);
 	    stage.addActor(moveCommandButton);
 	    
 	    attackCommandButton = new TextButton("A", style);
@@ -77,6 +92,7 @@ public class PlayUI {
 	        	 System.out.println("Attack pressed");
 	            }
 	        });
+	    buttonList.add(attackCommandButton);
 	    stage.addActor(attackCommandButton);
 	    
 	    BuildCommandButton = new TextButton("B", style);
@@ -84,9 +100,15 @@ public class PlayUI {
 	    BuildCommandButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
-	        	 System.out.println("Build pressed");
+	        	 if (selectedUnit == null && selectedHexagon != null) {
+	        		 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR);
+					game.getUnitHandler().addUnit(selectedUnit);
+					System.out.println("Unit added");
+				}
+	        	 BuildCommandButton.setChecked(false);
 	            }
 	        });
+	    buttonList.add(BuildCommandButton);
 	    stage.addActor(BuildCommandButton);
 	    
 	}
@@ -109,6 +131,18 @@ public class PlayUI {
 	
 	public void dispose(){
 		stage.dispose();
+	}
+	
+	public void setHex(Hexagon hex){
+		selectedHexagon = hex;
+		selectedUnit = hex.getUnit();
+	}
+
+	public void resetButtons() {
+		for (int i = 0; i < buttonList.size(); i++) {
+			buttonList.get(i).setChecked(false);
+		}
+		
 	}
 
 }

@@ -13,6 +13,7 @@ import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.misc.GameController;
 import com.svarttand.ludumdare40.ui.PlayUI;
+import com.svarttand.ludumdare40.units.UnitHandler;
 
 
 public class PlayState extends State{
@@ -28,6 +29,9 @@ public class PlayState extends State{
 	
 	private PlayUI ui;
 	
+	private UnitHandler unitHandler;
+	
+	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		textureAtlas = gsm.assetManager.get("ThePack.pack", TextureAtlas.class);
@@ -41,6 +45,8 @@ public class PlayState extends State{
 		multiplexer.addProcessor(ui.getStage());
 		
 		Gdx.input.setInputProcessor(multiplexer);
+		
+		unitHandler = new UnitHandler();
 	}
 
 	@Override
@@ -83,6 +89,7 @@ public class PlayState extends State{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		map.render(batch, textureAtlas);
+		unitHandler.render(batch, textureAtlas);
 		batch.end();
 		ui.render(batch, textureAtlas);
 		ui.getStage().draw();
@@ -108,6 +115,18 @@ public class PlayState extends State{
 	
 	public HexagonMap getMap(){
 		return map;
+	}
+	
+	public UnitHandler getUnitHandler(){
+		return unitHandler;
+	}
+	
+	public PlayUI getUI(){
+		return ui;
+	}
+
+	public GameController getController() {
+		return controller;
 	}
 
 }

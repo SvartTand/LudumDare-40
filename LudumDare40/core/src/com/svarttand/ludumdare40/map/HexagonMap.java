@@ -1,8 +1,11 @@
 package com.svarttand.ludumdare40.map;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.svarttand.ludumdare40.units.Unit;
 
 
 public class HexagonMap {
@@ -14,11 +17,14 @@ public class HexagonMap {
 	private int sizeY;
 	private Hexagon[][] map;
 	
+	private ArrayList<Unit> unitList;
+	
 	public HexagonMap(int x, int y){
 		sizeX = x;
 		sizeY = y;
 		map = new Hexagon[x][y];
 		createMap();
+		unitList = new ArrayList<Unit>();
 		
 		
 	}
@@ -37,8 +43,8 @@ public class HexagonMap {
 						// TODO: handle exception
 					}
 					try {
-						map[i-1][j].addNeighbor(map[i][j]);
-						map[i][j].addNeighbor(map[i-1][j]);
+						map[i][j-2].addNeighbor(map[i][j]);
+						map[i][j].addNeighbor(map[i][j-2]);
 						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -53,8 +59,8 @@ public class HexagonMap {
 				}else{
 					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f)+HEX_WIDTH*0.75f, j*HEX_HEIGHT*0.5f, TileType.GRASS);
 					try {
-						map[i-1][j].addNeighbor(map[i][j]);
-						map[i][j].addNeighbor(map[i-1][j]);
+						map[i][j-2].addNeighbor(map[i][j]);
+						map[i][j].addNeighbor(map[i][j-2]);
 						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -83,9 +89,9 @@ public class HexagonMap {
 		Hexagon placeholder = null;
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
+				placeholder = map[i][j];
 				batch.draw(atlas.findRegion(map[i][j].getPath()), map[i][j].posX, map[i][j].posY);
 				if (map[i][j].getBorderType() != BorderType.NULL) {
-					placeholder = map[i][j];
 					//System.out.println("Drawing selected at " + map[i][j].getX() + ", " +  map[i][j].getY());
 					batch.draw(atlas.findRegion(map[i][j].getBorderType().getPath()), map[i][j].posX, map[i][j].posY);
 //					for (int j2 = 0; j2 < placeholder.getVerticies().length; j2++) {
@@ -94,6 +100,7 @@ public class HexagonMap {
 				}
 			}
 		}
+		
 	}
 
 	public Hexagon getTileWithPoint(Vector2 point) {
