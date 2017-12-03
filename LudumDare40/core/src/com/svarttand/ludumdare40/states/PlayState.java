@@ -1,5 +1,7 @@
 package com.svarttand.ludumdare40.states;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
@@ -41,9 +43,9 @@ public class PlayState extends State{
 	
 	private ShapeRenderer renderer;
 	
-	public PlayState(GameStateManager gsm) {
+	public PlayState(GameStateManager gsm, TextureAtlas textureAtlas2) {
 		super(gsm);
-		textureAtlas = gsm.assetManager.get("ThePack.pack", TextureAtlas.class);
+		textureAtlas = textureAtlas2;
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		map = new HexagonMap(22, 22);
@@ -96,6 +98,7 @@ public class PlayState extends State{
 	@Override
 	public void update(float delta) {
 		handleInput(delta);
+		ui.updateFloatinTexts(delta);
 		
 	}
 
@@ -168,6 +171,8 @@ public class PlayState extends State{
 		// TODO Auto-generated method stub
 		return enemyUnitHandler;
 	}
+	
+	
 	
 
 }

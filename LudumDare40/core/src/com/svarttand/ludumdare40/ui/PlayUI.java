@@ -23,6 +23,7 @@ import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.map.TileType;
 import com.svarttand.ludumdare40.misc.Command;
+import com.svarttand.ludumdare40.misc.FloatingText;
 import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.states.PlayState;
 import com.svarttand.ludumdare40.units.Unit;
@@ -46,6 +47,7 @@ public class PlayUI {
 	private Button BuildCommandButton;
 	private Button makeWarriorButton;
 	private Button makeBuilderButton;
+	private Button makeTankButton;
 	
 	private Label resourcesText;
 	private Label objectiveText;
@@ -60,12 +62,16 @@ public class PlayUI {
 	 
 	private ArrayList<Button> buttonList;
 	
+	ArrayList<FloatingText> floatingTexts;
+	
 	public PlayUI(TextureAtlas atlas, final PlayState game){
 		camera = new OrthographicCamera();
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, camera);
 		stage = new Stage(viewport);
 		
 		buttonList = new ArrayList<Button>();
+		
+		floatingTexts = new ArrayList<FloatingText>();
 		
 		font = new BitmapFont();
 	    skin = new Skin(atlas);
@@ -120,7 +126,7 @@ public class PlayUI {
 	    stage.addActor(moveCommandButton);
 	    
 	    
-	    makeBuilderButton = new TextButton("Worker", style);
+	    makeBuilderButton = new TextButton("Build\nWorker", style);
 	    makeBuilderButton.setPosition(Application.V_WIDTH*0.125f, Application.V_HEIGHT*0.11f);
 	    makeBuilderButton.addListener( new ClickListener() {
 	         @Override
@@ -138,6 +144,9 @@ public class PlayUI {
 	 					update(game.getResources(), game.getMap());
 					}else{
 						System.out.println("Not enough money!");
+						FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+						floatingTexts.add(temp);
+						stage.addActor(temp.getLabel());
 					}
 	        		
 				}
@@ -147,7 +156,7 @@ public class PlayUI {
 	    buttonList.add(makeBuilderButton);
 	    stage.addActor(makeBuilderButton);
 	    
-	    makeWarriorButton = new TextButton("Warrior", style);
+	    makeWarriorButton = new TextButton("Build\nInfantry", style);
 	    makeWarriorButton.setPosition(Application.V_WIDTH*0.2f, Application.V_HEIGHT*0.11f);
 	    makeWarriorButton.addListener( new ClickListener() {
 	         @Override
@@ -165,6 +174,9 @@ public class PlayUI {
 		 					update(game.getResources(), game.getMap());
 						}else{
 							System.out.println("Not enough money!");
+							FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+							floatingTexts.add(temp);
+							stage.addActor(temp.getLabel());
 						}
 				}
 	        	 makeWarriorButton.setChecked(false);
@@ -172,6 +184,42 @@ public class PlayUI {
 	        });
 	    buttonList.add(makeWarriorButton);
 	    stage.addActor(makeWarriorButton);
+	    
+	    
+	    
+	    makeTankButton = new TextButton("Build\nTank", style);
+	    makeTankButton.setPosition(Application.V_WIDTH*0.275f, Application.V_HEIGHT*0.11f);
+	    makeTankButton.addListener( new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	        	 if (selectedUnit == null && selectedHexagon != null) {
+	        		 if (game.getResources().getFood()>= UnitType.TANK.getFoodCost() && 
+	        			 game.getResources().getWood()>= UnitType.TANK.getWoodCost() &&
+	        			 game.getResources().getGold()>= UnitType.TANK.getGoldCost()) {
+	        			 selectedUnit = selectedHexagon.addUnit(UnitType.TANK);
+	 					game.getUnitHandler().addUnit(selectedUnit);
+	 					System.out.println("Unit added");
+	 					updateButtons();
+	 					
+	 					game.getResources().removeCost(UnitType.TANK);
+	 					update(game.getResources(), game.getMap());
+					}else{
+						System.out.println("Not enough money!");
+						FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+						floatingTexts.add(temp);
+						stage.addActor(temp.getLabel());
+					}
+	        		
+				}
+	        	 makeTankButton.setChecked(false);
+	            }
+	        });
+	    buttonList.add(makeTankButton);
+	    stage.addActor(makeTankButton);
+	    
+	    
+	    
+	    
 	    
 	    BuildCommandButton = new TextButton("Build", style);
 	    BuildCommandButton.setPosition(Application.V_WIDTH*0.825f, Application.V_HEIGHT*0.11f);
@@ -215,6 +263,7 @@ public class PlayUI {
 		makeBuilderButton.setDisabled(true);
 		makeWarriorButton.setDisabled(true);
 		BuildCommandButton.setDisabled(true);
+		makeTankButton.setDisabled(true);
 	    
 	}
 	
@@ -228,6 +277,16 @@ public class PlayUI {
 	public void updateUnitText(){
 		unitInfoText.setText("Unit:\n" + selectedUnit);
 		hexInfoText.setText("Tile:\n" + selectedHexagon + " /turn");
+	}
+	
+	public void updateFloatinTexts(float delta){
+		for (int i = 0; i < floatingTexts.size(); i++) {
+			if (floatingTexts.get(i).update(delta)) {
+				floatingTexts.get(i).getLabel().setText("");
+				floatingTexts.remove(i);
+				
+			}
+		}
 	}
 	
 	
@@ -277,9 +336,11 @@ public class PlayUI {
 		if (selectedHexagon.getType() == TileType.CITY) {
 			makeBuilderButton.setDisabled(false);
 			makeWarriorButton.setDisabled(false);
+			makeTankButton.setDisabled(false);
 		}else{
 			makeBuilderButton.setDisabled(true);
 			makeWarriorButton.setDisabled(true);
+			makeTankButton.setDisabled(true);
 		}
 		if (selectedUnit == null) {
 			moveCommandButton.setDisabled(true);

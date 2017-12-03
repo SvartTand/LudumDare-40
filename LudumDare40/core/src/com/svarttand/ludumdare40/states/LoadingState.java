@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 
 
+
 public class LoadingState extends State {
 	
 	public static final int AUDIO_AMOUNT = 0;
@@ -69,7 +70,7 @@ public class LoadingState extends State {
         gsm.assetManager.update();
         if (gsm.assetManager.getProgress() >= 1){
         	
-            gsm.set(new PlayState(gsm));
+            gsm.set(new MenuState(gsm));
             dispose();
             
         }

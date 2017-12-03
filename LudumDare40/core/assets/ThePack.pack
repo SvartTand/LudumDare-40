@@ -5,196 +5,224 @@ filter: Nearest,Nearest
 repeat: none
 UiBar
   rotate: false
-  xy: 1, 105
+  xy: 1, 651
   size: 800, 150
   orig: 800, 150
   offset: 0, 0
   index: -1
+Background
+  rotate: false
+  xy: 1, 249
+  size: 400, 400
+  orig: 400, 400
+  offset: 0, 0
+  index: -1
 TopCorner
   rotate: false
-  xy: 1, 39
+  xy: 803, 737
   size: 196, 64
   orig: 196, 64
   offset: 0, 0
   index: -1
+MenuButton
+  rotate: false
+  xy: 1, 191
+  size: 200, 56
+  orig: 200, 56
+  offset: 0, 0
+  index: -1
+MenuButtonPressed
+  rotate: false
+  xy: 403, 593
+  size: 200, 56
+  orig: 200, 56
+  offset: 0, 0
+  index: -1
 EndTurnButton
   rotate: false
-  xy: 803, 217
+  xy: 803, 697
   size: 90, 38
   orig: 90, 38
   offset: 0, 0
   index: -1
 EndTurnButtonPressed
   rotate: false
-  xy: 199, 65
+  xy: 1, 151
   size: 90, 38
   orig: 90, 38
   offset: 0, 0
   index: -1
+AilienSpawner
+  rotate: false
+  xy: 203, 191
+  size: 64, 56
+  orig: 64, 56
+  offset: 0, 0
+  index: -1
 BlackBorder
   rotate: false
-  xy: 803, 159
+  xy: 403, 535
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 BlueBorder
   rotate: false
-  xy: 803, 101
+  xy: 605, 593
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
-CampHex
+CityDome
   rotate: false
-  xy: 895, 199
+  xy: 1, 93
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
-CityHex
+Desert
   rotate: false
-  xy: 291, 47
+  xy: 269, 191
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
-DessertHex
+Farmland
   rotate: false
-  xy: 357, 47
+  xy: 403, 477
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
-FoodHex
+Forrest
   rotate: false
-  xy: 423, 47
+  xy: 469, 535
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
-GoldHex
+GoldMine
   rotate: false
-  xy: 489, 47
+  xy: 671, 593
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
-GrassHex
+Grassland
   rotate: false
-  xy: 555, 47
+  xy: 1, 35
+  size: 64, 56
+  orig: 64, 56
+  offset: 0, 0
+  index: -1
+RedBorder
+  rotate: false
+  xy: 335, 191
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 WhiteBorder
   rotate: false
-  xy: 621, 47
-  size: 64, 56
-  orig: 64, 56
-  offset: 0, 0
-  index: -1
-WoodHex
-  rotate: false
-  xy: 687, 47
+  xy: 403, 419
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Button
   rotate: false
-  xy: 753, 55
+  xy: 469, 485
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ButtonDisabled
   rotate: false
-  xy: 961, 207
+  xy: 535, 543
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ButtonPressed
   rotate: false
-  xy: 803, 51
+  xy: 737, 601
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 Archer
   rotate: false
-  xy: 1, 5
+  xy: 803, 663
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ArcherEnemy
   rotate: false
-  xy: 35, 5
+  xy: 895, 703
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 BigBadAilien
   rotate: false
-  xy: 69, 5
+  xy: 93, 157
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Infantry
   rotate: false
-  xy: 103, 5
+  xy: 1, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 SnailAiliens
   rotate: false
-  xy: 137, 5
+  xy: 403, 385
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Tank
   rotate: false
-  xy: 171, 5
+  xy: 469, 451
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Worker
   rotate: false
-  xy: 853, 67
+  xy: 585, 559
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 FoodIcon
   rotate: false
-  xy: 199, 43
+  xy: 1001, 781
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 GoldIcon
   rotate: false
-  xy: 869, 195
+  xy: 67, 129
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 WoodIcon
   rotate: false
-  xy: 221, 43
+  xy: 837, 675
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 point
   rotate: false
-  xy: 1, 1
+  xy: 519, 531
   size: 2, 2
   orig: 2, 2
   offset: 0, 0
