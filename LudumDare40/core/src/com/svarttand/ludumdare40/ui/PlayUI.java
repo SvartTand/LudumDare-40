@@ -229,15 +229,20 @@ public class PlayUI {
 	        	 System.out.println("build pressed");
 	        	 
 	        		 if (selectedUnit != null && selectedUnit.getType() == UnitType.WORKER) {
-	        			if (selectedHexagon.getType() != TileType.GOLD) {
-	        				selectedHexagon.setType(TileType.CITY);
+	        			if (selectedHexagon.getType() == TileType.GOLD) {
+	        				FloatingText temp = new FloatingText("Cant Build on Gold!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+							floatingTexts.add(temp);
+							stage.addActor(temp.getLabel());
+						}else if (selectedHexagon.getType() == TileType.CITY) {
+							FloatingText temp = new FloatingText("Cant Build on Domes!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+							floatingTexts.add(temp);
+							stage.addActor(temp.getLabel());
+						}else{
+							
+							selectedHexagon.setType(TileType.CITY);
 		 					game.getMap().addCity(selectedHexagon);
 		 					selectedUnit.remove(game.getUnitHandler());
 		 					selectedUnit = null;
-						}else{
-							FloatingText temp = new FloatingText("Cant Build on Gold!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
-							floatingTexts.add(temp);
-							stage.addActor(temp.getLabel());
 						}
 	 					updateButtons();
 	 					
@@ -368,6 +373,10 @@ public class PlayUI {
 			buttonList.get(i).setChecked(false);
 		}
 		
+	}
+	
+	public void resize(int width, int height){
+		viewport.update(width, height);
 	}
 
 }

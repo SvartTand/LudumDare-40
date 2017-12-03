@@ -59,17 +59,27 @@ public class GameController implements InputProcessor{
 			}
 			game.getMap().updateBorders();
 			if (currentCommand == Command.NO_COMMAND) {
-				try {
-					currentSelected = game.getMap().getTileWithPoint(v);
-					currentSelected.setSelected(BorderType.WHITE);
-//					for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
-//						currentSelected.getNeighbors().get(i).setSelected(BorderType.WHITE);
-//					}
-					game.getUI().setHex(currentSelected);
-					System.out.println(currentSelected);
-				}catch (Exception e) {
-					System.out.println(e);
+				if (button == 0) {
+					try {
+						currentSelected = game.getMap().getTileWithPoint(v);
+						currentSelected.setSelected(BorderType.WHITE);
+//						for (int i = 0; i < currentSelected.getNeighbors().size(); i++) {
+//							currentSelected.getNeighbors().get(i).setSelected(BorderType.WHITE);
+//						}
+						game.getUI().setHex(currentSelected);
+						System.out.println(currentSelected);
+					}catch (Exception e) {
+						System.out.println(e);
+					}
+				}else if (button == 1) {
+					if (currentSelected != null && currentSelected.getUnit() != null) {
+						if (currentSelected.getUnit().getMovmentsLeft() > 0) {
+							game.getController().setMovmentPossibilities(currentSelected.getUnit().getMovmentsLeft());
+							currentCommand = Command.MOVE;
+						}
+					}
 				}
+				
 			}
 			if (currentCommand == Command.ATTACK) {
 				
