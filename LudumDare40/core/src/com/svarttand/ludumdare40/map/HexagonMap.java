@@ -40,7 +40,7 @@ public class HexagonMap {
 		
 		map[randx][randy].setType(TileType.CITY);
 		startPos = new Vector2(map[randx][randy].getPosX(), map[randx][randy].getPosY());
-		cityList.add(map[randx][randy]);
+		addCity(map[randx][randy]);
 	}
 	
 	private void createMap(Random random){
@@ -153,11 +153,13 @@ public class HexagonMap {
 		Hexagon temp = map[randx][randy];
 		boolean notPossibleLocation = false;
 		for (int i = 0; i < cityList.size(); i++) {
+			cityList.get(i).setSelected(BorderType.BLUE);
 			handler.addTilesResourcers(cityList.get(i));
 			if (temp.isSame(cityList.get(i))) {
 				notPossibleLocation = true;
 			}
 			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
+				cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
 				handler.addTilesResourcers(cityList.get(i).getNeighbors().get(j));
 				if (temp.isSame(cityList.get(i).getNeighbors().get(j))) {
 					notPossibleLocation = true;
@@ -172,10 +174,29 @@ public class HexagonMap {
 			
 		
 	}
+	
+	public void updateBorders(){
+		for (int i = 0; i < cityList.size(); i++) {
+			cityList.get(i).setSelected(BorderType.BLUE);
+			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
+				cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
+			}
+		}
+	}
 
 	public void addCity(Hexagon selectedHexagon) {
 		cityList.add(selectedHexagon);
-		
+		for (int i = 0; i < selectedHexagon.getNeighbors().size(); i++) {
+			selectedHexagon.getNeighbors().get(i).setSelected(BorderType.BLUE);
+		}
+	}
+	
+	public void removeCity(Hexagon city){
+		cityList.remove(city);
+		city.setType(city.getPreviousType());
+		for (int i = 0; i < city.getNeighbors().size(); i++) {
+			city.getNeighbors().get(i).setSelected(BorderType.NULL);
+		}
 	}
 
 	public ArrayList<Hexagon> getCityList() {

@@ -16,6 +16,7 @@ public class Hexagon {
 	private TileType type;
 	private BorderType b_Type;
 	private TileType previousType;
+	private BorderType previousBorder;
 	
 	private Vector2[] verticies;
 	
@@ -32,6 +33,7 @@ public class Hexagon {
 		type = t;
 		previousType = t;
 		b_Type = BorderType.NULL;
+		previousBorder = BorderType.NULL;
 		verticies = new Vector2[6];
 		addVerticies();
 		hasUnit = false;
@@ -47,12 +49,17 @@ public class Hexagon {
 	}
 	
 	public void setSelected(BorderType t){
+		previousBorder = b_Type;
 		b_Type = t;
 	}
 	
 	public BorderType getBorderType(){
 		return b_Type;
 	}
+	
+//	public BorderType getPrevBorder(){
+//		return previousBorder;
+//	}
 	
 	public float getPosX(){
 		return posX;

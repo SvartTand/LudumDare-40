@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.svarttand.ludumdare40.map.Hexagon;
 
 public class EnemyUnitHandler implements UHandler{
@@ -42,7 +43,7 @@ public class EnemyUnitHandler implements UHandler{
 		}
 	}
 	@Override
-	public void render(SpriteBatch batch, TextureAtlas atlas){
+	public void render(SpriteBatch batch, TextureAtlas atlas, ShapeRenderer renderer){
 		for (int i = 0; i < unitList.size(); i++) {
 			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
 		}
@@ -57,6 +58,13 @@ public class EnemyUnitHandler implements UHandler{
 				unitList.remove(i);
 				System.out.println("removed");
 			}
+		}
+		
+	}
+
+	public void renderBars(ShapeRenderer renderer) {
+		for (int i = 0; i < unitList.size(); i++) {
+			unitList.get(i).getHpBar().render(renderer);
 		}
 		
 	}

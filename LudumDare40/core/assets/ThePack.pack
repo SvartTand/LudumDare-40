@@ -5,161 +5,175 @@ filter: Nearest,Nearest
 repeat: none
 UiBar
   rotate: false
-  xy: 1, 99
+  xy: 1, 105
   size: 800, 150
   orig: 800, 150
   offset: 0, 0
   index: -1
+TopCorner
+  rotate: false
+  xy: 1, 39
+  size: 196, 64
+  orig: 196, 64
+  offset: 0, 0
+  index: -1
 EndTurnButton
   rotate: false
-  xy: 1, 59
+  xy: 803, 217
   size: 90, 38
   orig: 90, 38
   offset: 0, 0
   index: -1
 EndTurnButtonPressed
   rotate: false
-  xy: 803, 211
+  xy: 199, 65
   size: 90, 38
   orig: 90, 38
   offset: 0, 0
   index: -1
 BlackBorder
   rotate: false
-  xy: 1, 1
+  xy: 803, 159
+  size: 64, 56
+  orig: 64, 56
+  offset: 0, 0
+  index: -1
+BlueBorder
+  rotate: false
+  xy: 803, 101
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 CampHex
   rotate: false
-  xy: 803, 153
+  xy: 895, 199
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 CityHex
   rotate: false
-  xy: 803, 95
+  xy: 291, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 DessertHex
   rotate: false
-  xy: 895, 193
+  xy: 357, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 FoodHex
   rotate: false
-  xy: 93, 41
+  xy: 423, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 GoldHex
   rotate: false
-  xy: 159, 41
+  xy: 489, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 GrassHex
   rotate: false
-  xy: 225, 41
+  xy: 555, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 WhiteBorder
   rotate: false
-  xy: 291, 41
+  xy: 621, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 WoodHex
   rotate: false
-  xy: 357, 41
+  xy: 687, 47
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Button
   rotate: false
-  xy: 961, 201
+  xy: 753, 55
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ButtonPressed
   rotate: false
-  xy: 423, 49
+  xy: 961, 207
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 Archer
   rotate: false
-  xy: 473, 65
+  xy: 1, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ArcherEnemy
   rotate: false
-  xy: 507, 65
+  xy: 803, 67
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Warrior
   rotate: false
-  xy: 541, 65
+  xy: 35, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 WarriorEnemy
   rotate: false
-  xy: 575, 65
+  xy: 69, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Worker
   rotate: false
-  xy: 609, 65
+  xy: 103, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 FoodIcon
   rotate: false
-  xy: 869, 189
+  xy: 869, 195
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 GoldIcon
   rotate: false
-  xy: 67, 37
+  xy: 199, 43
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 WoodIcon
   rotate: false
-  xy: 643, 77
+  xy: 837, 79
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 point
   rotate: false
-  xy: 891, 207
+  xy: 1, 1
   size: 2, 2
   orig: 2, 2
   offset: 0, 0

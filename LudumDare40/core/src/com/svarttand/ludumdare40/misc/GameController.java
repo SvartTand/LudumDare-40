@@ -50,12 +50,14 @@ public class GameController implements InputProcessor{
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (screenY < Gdx.graphics.getHeight()*0.8125f) {
+			
 			Vector2 v  = convertToGameCordinates(screenX, screenY);
 			System.out.println(v.x + ", " + v.y);
 			if (currentSelected != null) {
 				currentSelected.setSelected(BorderType.NULL);
 				previousSelected = currentSelected;
 			}
+			game.getMap().updateBorders();
 			if (currentCommand == Command.NO_COMMAND) {
 				try {
 					currentSelected = game.getMap().getTileWithPoint(v);
@@ -91,7 +93,20 @@ public class GameController implements InputProcessor{
 							}
 							
 						}else{
-							possiblePlaces.get(i).setSelected(BorderType.NULL);
+							int k = 0;
+							if (possiblePlaces.get(i).getType() == TileType.CITY) {
+								possiblePlaces.get(i).setSelected(BorderType.BLUE);
+								k = possiblePlaces.get(i).getNeighbors().size();
+							}
+							for (int j = k; j < possiblePlaces.get(i).getNeighbors().size(); j++) {
+								if (possiblePlaces.get(i).getNeighbors().get(j).getType() == TileType.CITY) {
+									possiblePlaces.get(i).setSelected(BorderType.BLUE);
+									break;
+								}else{
+									possiblePlaces.get(i).setSelected(BorderType.NULL);
+								}
+							}
+							
 						}
 						
 					}

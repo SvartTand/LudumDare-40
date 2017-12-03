@@ -24,6 +24,8 @@ public class Unit {
 	
 	private LinkedList<Hexagon> movmentPath;
 	
+	private HealthBar hpBar;
+	
 	public Unit(Hexagon hex, UnitType t){
 		type = t;
 		movmentsLeft = 0;
@@ -31,6 +33,7 @@ public class Unit {
 		currentPos = hex;
 		pos = new Vector2(currentPos.getPosX() + ICON_RADIOUS ,currentPos.getPosY() + ICON_RADIOUS-2);
 		movmentPath = new LinkedList<Hexagon>();
+		hpBar = new HealthBar(ICON_RADIOUS*2, 5, type.getHp(), pos.x, pos.y);
 	}
 	
 	public void update(){
@@ -66,6 +69,7 @@ public class Unit {
 		currentPos.setUnit(this);
 		currentPos.setHasUnit(true);
 		updatePos();
+		hpBar.update(health, pos.x, pos.y);
 		
 	}
 	
@@ -78,6 +82,8 @@ public class Unit {
 		hex.getUnit().health -= rand1 * currentPos.getType().getAttackAmplifier();
 		System.out.println("Results Attacker Hp = " + health + ", dmg dealt: " + rand1);
 		System.out.println("Results Defender Hp = " + hex.getUnit().health + ", dmg dealt: " + rand2);
+		hpBar.update(health, pos.x, pos.y);
+		hex.getUnit().getHpBar().update(hex.getUnit().health, hex.getUnit().getPos().x, hex.getUnit().getPos().y);
 		if (health <= 0 && hex.getUnit().health <= 0) {
 			if (health > hex.getUnit().health) {
 				health = 1;
@@ -110,6 +116,10 @@ public class Unit {
 		currentPos = null;
 		handler.remove(this);
 		
+	}
+	
+	public HealthBar getHpBar(){
+		return hpBar;
 	}
 
 	public void calculateRoute(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList) {

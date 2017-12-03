@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
@@ -37,6 +39,8 @@ public class PlayState extends State{
 	private ResourceHandler resourceHandler;
 	private EnemyUnitHandler enemyUnitHandler;
 	
+	private ShapeRenderer renderer;
+	
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
 		textureAtlas = gsm.assetManager.get("ThePack.pack", TextureAtlas.class);
@@ -58,6 +62,8 @@ public class PlayState extends State{
 		
 		resourceHandler = new ResourceHandler(5,5,5);
 		enemyUnitHandler = new EnemyUnitHandler();
+		
+		renderer = new ShapeRenderer();
 	}
 
 	@Override
@@ -96,13 +102,18 @@ public class PlayState extends State{
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.setProjectionMatrix(cam.combined);
+		renderer.setProjectionMatrix(cam.combined);
 		Gdx.gl.glClearColor(0, (float) 0.6, 1, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		map.render(batch, textureAtlas);
-		unitHandler.render(batch, textureAtlas);
-		enemyUnitHandler.render(batch, textureAtlas);
+		unitHandler.render(batch, textureAtlas, renderer);
+		enemyUnitHandler.render(batch, textureAtlas, renderer);
 		batch.end();
+		renderer.begin(ShapeType.Filled);
+		enemyUnitHandler.renderBars(renderer);
+		unitHandler.renderBars(renderer);
+		renderer.end();
 		ui.render(batch, textureAtlas);
 		ui.getStage().draw();
 		

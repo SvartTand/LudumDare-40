@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class UnitHandler implements UHandler{
 	
@@ -17,7 +18,7 @@ public class UnitHandler implements UHandler{
 		unitList.add(unit);
 	}
 	@Override
-	public void render(SpriteBatch batch, TextureAtlas atlas){
+	public void render(SpriteBatch batch, TextureAtlas atlas, ShapeRenderer renderer){
 		for (int i = 0; i < unitList.size(); i++) {
 			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
 		}
@@ -46,6 +47,13 @@ public class UnitHandler implements UHandler{
 	public ArrayList<Unit> getUnits() {
 		// TODO Auto-generated method stub
 		return unitList;
+	}
+
+	public void renderBars(ShapeRenderer renderer) {
+		for (int i = 0; i < unitList.size(); i++) {
+			unitList.get(i).getHpBar().render(renderer);
+		}
+		
 	}
 
 }
