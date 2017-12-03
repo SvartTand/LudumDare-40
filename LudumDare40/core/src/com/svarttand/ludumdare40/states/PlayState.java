@@ -56,13 +56,14 @@ public class PlayState extends State{
 		textureAtlas = textureAtlas2;
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		map = new HexagonMap(22, 22);
+		map = new HexagonMap(10, 22);
 		controller = new GameController(this);
 		multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(controller);
+
 		resourceHandler = new ResourceHandler(5,5,5);
 		ui = new PlayUI(textureAtlas, this);
 		multiplexer.addProcessor(ui.getStage());
+		multiplexer.addProcessor(controller);
 		
 		font = new BitmapFont();
 		

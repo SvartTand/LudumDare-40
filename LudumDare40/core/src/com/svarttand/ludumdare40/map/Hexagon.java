@@ -26,7 +26,10 @@ public class Hexagon {
 	private int distanceFromStart;
 	private Hexagon parent;
 	
-	public Hexagon(float x, float y, TileType t){
+	private int i;
+	private int j;
+	
+	public Hexagon(float x, float y,int i, int j, TileType t){
 		posX = x;
 		posY = y;
 		neighbors = new ArrayList<Hexagon>();
@@ -38,6 +41,8 @@ public class Hexagon {
 		addVerticies();
 		hasUnit = false;
 		distanceFromStart = 0;
+		this.i = i;
+		this.j = j;
 	}
 	
 	public void addNeighbor(Hexagon hex){
@@ -80,6 +85,10 @@ public class Hexagon {
 
 	public Vector2[] getVerticies() {
 		return verticies;
+	}
+	
+	public String getPos(){
+		return "" + i + ", " + j;
 	}
 	
 	public String toString(){

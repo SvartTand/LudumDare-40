@@ -67,7 +67,7 @@ public class GameController implements InputProcessor{
 //							currentSelected.getNeighbors().get(i).setSelected(BorderType.WHITE);
 //						}
 						game.getUI().setHex(currentSelected);
-						System.out.println(currentSelected);
+						System.out.println(currentSelected.getPos());
 					}catch (Exception e) {
 						System.out.println(e);
 					}
@@ -225,7 +225,12 @@ public class GameController implements InputProcessor{
 		System.out.println("loop passed");
 		
 		for (int i = 0; i < possiblePlaces.size(); i++) {
-			possiblePlaces.get(i).setSelected(BorderType.WHITE);
+			if (possiblePlaces.get(i).getUnit() != null) {
+				possiblePlaces.get(i).setSelected(BorderType.RED);
+			}else{
+				possiblePlaces.get(i).setSelected(BorderType.WHITE);
+			}
+			
 		}
 		
 	}

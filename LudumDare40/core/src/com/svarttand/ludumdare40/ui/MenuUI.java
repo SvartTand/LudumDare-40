@@ -47,7 +47,7 @@ public class MenuUI {
 	     playButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
-	             gsm.set(new PlayState(gsm, textureAtlas));
+	             gsm.push(new PlayState(gsm, textureAtlas));
 
 	            }
 	        });

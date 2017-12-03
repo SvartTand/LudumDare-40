@@ -4,6 +4,7 @@ public enum BorderType {
 	WHITE("WhiteBorder"),
 	BLACK("WhiteBorder"),
 	BLUE("BlueBorder"),
+	RED("RedBorder"),
 	NULL("");
 	
 	private String path;

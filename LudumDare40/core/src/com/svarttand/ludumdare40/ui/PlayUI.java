@@ -48,17 +48,20 @@ public class PlayUI {
 	private Button makeWarriorButton;
 	private Button makeBuilderButton;
 	private Button makeTankButton;
+	private Button makeUnit;
 	
 	private Label resourcesText;
 	private Label objectiveText;
 	private Label unitInfoText;
 	private Label hexInfoText;
+
 	
-	private Label builderCost;
-	private Label warriorCost;
+	private Label buildInfoText;
 	
 	private Unit selectedUnit;
 	private Hexagon selectedHexagon;
+	
+	private boolean tabVisible;
 	 
 	private ArrayList<Button> buttonList;
 	
@@ -70,7 +73,7 @@ public class PlayUI {
 		stage = new Stage(viewport);
 		
 		buttonList = new ArrayList<Button>();
-		
+		tabVisible = false;
 		floatingTexts = new ArrayList<FloatingText>();
 		
 		font = new BitmapFont();
@@ -94,18 +97,18 @@ public class PlayUI {
 	    hexInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
 	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.035f);
 	    
-	    builderCost = new Label(UnitType.WORKER.getFoodCost() + "," + UnitType.WORKER.getWoodCost() + "," + UnitType.WORKER.getGoldCost(), new LabelStyle(font, Color.WHITE));
-	    builderCost.setPosition(Application.V_WIDTH *0.125f, Application.V_HEIGHT*0.085f);
+	    buildInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
+	    buildInfoText.setPosition(Application.V_WIDTH *0.115f, Application.V_HEIGHT*0.2f);
 	    
-	    warriorCost = new Label(UnitType.WARRIOR.getFoodCost() + "," + UnitType.WARRIOR.getWoodCost() + "," + UnitType.WARRIOR.getGoldCost() + "", new LabelStyle(font, Color.WHITE));
-	    warriorCost.setPosition(Application.V_WIDTH *0.2f, Application.V_HEIGHT*0.085f);
+	    buildInfoText.setVisible(false);
 	    
-	    stage.addActor(warriorCost);
-	    stage.addActor(builderCost);
+	    stage.addActor(buildInfoText);
 	    stage.addActor(hexInfoText);
 	    stage.addActor(resourcesText);
 	    stage.addActor(objectiveText);
 	    stage.addActor(unitInfoText);
+	    
+	    
 	    
 	    moveCommandButton = new TextButton("Move", style);
 	    moveCommandButton.setPosition(Application.V_WIDTH*0.75f, Application.V_HEIGHT*0.11f);
@@ -126,60 +129,27 @@ public class PlayUI {
 	    stage.addActor(moveCommandButton);
 	    
 	    
-	    makeBuilderButton = new TextButton("Build\nWorker", style);
+	    makeBuilderButton = new TextButton("Builder", style);
 	    makeBuilderButton.setPosition(Application.V_WIDTH*0.125f, Application.V_HEIGHT*0.11f);
 	    makeBuilderButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
-	        	 if (selectedUnit == null && selectedHexagon != null) {
-	        		 if (game.getResources().getFood()>= UnitType.WORKER.getFoodCost() && 
-	        			 game.getResources().getWood()>= UnitType.WORKER.getWoodCost() &&
-	        			 game.getResources().getGold()>= UnitType.WORKER.getGoldCost()) {
-	        			 selectedUnit = selectedHexagon.addUnit(UnitType.WORKER);
-	 					game.getUnitHandler().addUnit(selectedUnit);
-	 					System.out.println("Unit added");
-	 					updateButtons();
-	 					
-	 					game.getResources().removeCost(UnitType.WORKER);
-	 					update(game.getResources(), game.getMap());
-					}else{
-						System.out.println("Not enough money!");
-						FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
-						floatingTexts.add(temp);
-						//stage.addActor(temp.getLabel());
-					}
-	        		
-				}
-	        	 makeBuilderButton.setChecked(false);
+	        	 updateBuyTab(makeBuilderButton.isChecked(), UnitType.WORKER);
+	        	 makeTankButton.setChecked(false);
+	        	 makeWarriorButton.setChecked(false);
 	            }
 	        });
 	    buttonList.add(makeBuilderButton);
 	    stage.addActor(makeBuilderButton);
 	    
-	    makeWarriorButton = new TextButton("Build\nInfantry", style);
+	    makeWarriorButton = new TextButton("Infantry", style);
 	    makeWarriorButton.setPosition(Application.V_WIDTH*0.2f, Application.V_HEIGHT*0.11f);
 	    makeWarriorButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
-	        	 if (selectedUnit == null && selectedHexagon != null) {
-	        		 if (game.getResources().getFood()>= UnitType.WARRIOR.getFoodCost() && 
-		        			 game.getResources().getWood()>= UnitType.WARRIOR.getWoodCost() &&
-		        			 game.getResources().getGold()>= UnitType.WARRIOR.getGoldCost()) {
-		        			 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR);
-		 					game.getUnitHandler().addUnit(selectedUnit);
-		 					System.out.println("Unit added");
-		 					updateButtons();
-		 					
-		 					game.getResources().removeCost(UnitType.WARRIOR);
-		 					update(game.getResources(), game.getMap());
-						}else{
-							System.out.println("Not enough money!");
-							FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
-							floatingTexts.add(temp);
-							//stage.addActor(temp.getLabel());
-						}
-				}
-	        	 makeWarriorButton.setChecked(false);
+	        	 updateBuyTab(makeWarriorButton.isChecked(), UnitType.WARRIOR);
+	        	 makeBuilderButton.setChecked(false);
+	        	 makeTankButton.setChecked(false);
 	            }
 	        });
 	    buttonList.add(makeWarriorButton);
@@ -187,35 +157,88 @@ public class PlayUI {
 	    
 	    
 	    
-	    makeTankButton = new TextButton("Build\nTank", style);
+	    makeTankButton = new TextButton("Tank", style);
 	    makeTankButton.setPosition(Application.V_WIDTH*0.275f, Application.V_HEIGHT*0.11f);
 	    makeTankButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
-	        	 if (selectedUnit == null && selectedHexagon != null) {
-	        		 if (game.getResources().getFood()>= UnitType.TANK.getFoodCost() && 
-	        			 game.getResources().getWood()>= UnitType.TANK.getWoodCost() &&
-	        			 game.getResources().getGold()>= UnitType.TANK.getGoldCost()) {
-	        			 selectedUnit = selectedHexagon.addUnit(UnitType.TANK);
-	 					game.getUnitHandler().addUnit(selectedUnit);
-	 					System.out.println("Unit added");
-	 					updateButtons();
-	 					
-	 					game.getResources().removeCost(UnitType.TANK);
-	 					update(game.getResources(), game.getMap());
-					}else{
-						System.out.println("Not enough money!");
-						FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
-						floatingTexts.add(temp);
-						//stage.addActor(temp.getLabel());
-					}
-	        		
-				}
-	        	 makeTankButton.setChecked(false);
+	        	 updateBuyTab(makeTankButton.isChecked(), UnitType.TANK);
+	        	 makeBuilderButton.setChecked(false);
+	        	 makeWarriorButton.setChecked(false);
 	            }
 	        });
 	    buttonList.add(makeTankButton);
 	    stage.addActor(makeTankButton);
+	    
+	    
+	    
+	    
+	    
+	    makeUnit = new TextButton("Buy", style);
+	    makeUnit.setPosition(Application.V_WIDTH*0.275f, Application.V_HEIGHT*0.18f);
+	    makeUnit.addListener( new ClickListener() {
+	         @Override
+	         public void clicked(InputEvent event, float x, float y) {
+	        	 if (selectedUnit == null && selectedHexagon != null) {
+	        		 if (makeWarriorButton.isChecked()) {
+	        			 if (game.getResources().getFood()>= UnitType.WARRIOR.getFoodCost() && 
+			        			 game.getResources().getWood()>= UnitType.WARRIOR.getWoodCost() &&
+			        			 game.getResources().getGold()>= UnitType.WARRIOR.getGoldCost()) {
+			        			 selectedUnit = selectedHexagon.addUnit(UnitType.WARRIOR);
+			 					game.getUnitHandler().addUnit(selectedUnit);
+			 					System.out.println("Unit added");
+			 					updateButtons();
+			 					
+			 					game.getResources().removeCost(UnitType.WARRIOR);
+			 					update(game.getResources(), game.getMap());
+							}else{
+								System.out.println("Not enough money!");
+								FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+								floatingTexts.add(temp);
+								//stage.addActor(temp.getLabel());
+							}
+					}else if (makeBuilderButton.isChecked()) {
+						 if (game.getResources().getFood()>= UnitType.WORKER.getFoodCost() && 
+			        			 game.getResources().getWood()>= UnitType.WORKER.getWoodCost() &&
+			        			 game.getResources().getGold()>= UnitType.WORKER.getGoldCost()) {
+			        			 selectedUnit = selectedHexagon.addUnit(UnitType.WORKER);
+			 					game.getUnitHandler().addUnit(selectedUnit);
+			 					System.out.println("Unit added");
+			 					updateButtons();
+			 					
+			 					game.getResources().removeCost(UnitType.WORKER);
+			 					update(game.getResources(), game.getMap());
+							}else{
+								System.out.println("Not enough money!");
+								FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+								floatingTexts.add(temp);
+								//stage.addActor(temp.getLabel());
+							}
+					}else if (makeTankButton.isChecked()) {
+						if (game.getResources().getFood()>= UnitType.TANK.getFoodCost() && 
+			        			 game.getResources().getWood()>= UnitType.TANK.getWoodCost() &&
+			        			 game.getResources().getGold()>= UnitType.TANK.getGoldCost()) {
+			        			 selectedUnit = selectedHexagon.addUnit(UnitType.TANK);
+			 					game.getUnitHandler().addUnit(selectedUnit);
+			 					System.out.println("Unit added");
+			 					updateButtons();
+			 					
+			 					game.getResources().removeCost(UnitType.TANK);
+			 					update(game.getResources(), game.getMap());
+							}else{
+								System.out.println("Not enough money!");
+								FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+								floatingTexts.add(temp);
+								//stage.addActor(temp.getLabel());
+							}
+					}
+				}
+	        	 makeUnit.setChecked(false);
+	            }
+	        });
+	    buttonList.add(makeUnit);
+	    stage.addActor(makeUnit);
+	    makeUnit.setVisible(false);
 	    
 	    
 	    
@@ -317,19 +340,38 @@ public class PlayUI {
 		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.08f);
 		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.05f);
 		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.02f);
-		//warior Cost
-		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.12f, Application.V_HEIGHT*0.06f);
-		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.145f, Application.V_HEIGHT*0.06f);
-		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.17f, Application.V_HEIGHT*0.06f);
-		//Builder cost
-		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.195f, Application.V_HEIGHT*0.06f);
-		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.22f, Application.V_HEIGHT*0.06f);
-		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.245f, Application.V_HEIGHT*0.06f);
+		
+		
+		
 		for (int i = 0; i < floatingTexts.size(); i++) {
 			floatingTexts.get(i).getLabel().draw(batch, 1);
 		}
 		
+		if (tabVisible) {
+			batch.draw(atlas.findRegion("TopCorner"),Application.V_WIDTH*0.105f, Application.V_HEIGHT*0.17f);
+			batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.11f, Application.V_HEIGHT*0.2f);
+			batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.16f, Application.V_HEIGHT*0.2f);
+			batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.21f, Application.V_HEIGHT*0.2f);
+		}
+		
 		batch.end();
+	}
+	
+	private void updateBuyTab(boolean b, UnitType type){
+		buildInfoText.setVisible(b);
+		makeUnit.setVisible(b);
+		tabVisible = b;
+		if (type == UnitType.WARRIOR) {
+			buildInfoText.setText(UnitType.WARRIOR.getPath() + ":   Agility: " + UnitType.WARRIOR.getMovments() + "\n    " + UnitType.WARRIOR.getFoodCost()
+			+ ",     " + UnitType.WARRIOR.getGoldCost() + ",     " + UnitType.WARRIOR.getWoodCost() + "\nDmg: " + UnitType.WARRIOR.getDmg() + ", Hp: " +UnitType.WARRIOR.getHp());
+		}else if (type == UnitType.TANK) {
+			buildInfoText.setText(UnitType.TANK.getPath() + ":   Agility: " + UnitType.TANK.getMovments() + "\n    " + UnitType.TANK.getFoodCost()
+			+ ",     " + UnitType.TANK.getGoldCost() + ",     " + UnitType.TANK.getWoodCost() + "\nDmg: " + UnitType.TANK.getDmg() + ", Hp: " +UnitType.TANK.getHp());
+		}else if (type == UnitType.WORKER) {
+			buildInfoText.setText(UnitType.WORKER.getPath() + ":   Agility: " + UnitType.WORKER.getMovments() + "\n    " + UnitType.WORKER.getFoodCost()
+			+ ",     " + UnitType.WORKER.getGoldCost() + ",     " + UnitType.WORKER.getWoodCost() + "\nDmg: " + UnitType.WORKER.getDmg() + ", Hp: " +UnitType.WORKER.getHp());
+		}
+		
 	}
 	
 	public Stage getStage(){
@@ -365,6 +407,7 @@ public class PlayUI {
 				BuildCommandButton.setDisabled(false);
 			}
 		}
+		updateBuyTab(false, UnitType.TANK);
 		updateUnitText();
 	}
 

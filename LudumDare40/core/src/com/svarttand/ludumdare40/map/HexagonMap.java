@@ -54,8 +54,8 @@ public class HexagonMap {
 	
 	private void createMap(Random random){
 		System.out.println("xv");
-		for (int j = 0; j < map.length; j++) {
-			for (int i = 0; i < map[j].length; i++) {
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
 				int rand = random.nextInt(25);
 				TileType type = TileType.GRASS;
 				if (rand == 1) {
@@ -68,50 +68,57 @@ public class HexagonMap {
 					type = TileType.WOOD;
 				}
 				if (j%2 == 0) {
-					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f), j*HEX_HEIGHT*0.5f, type);
+					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f), j*HEX_HEIGHT*0.5f,i,j, type);
 					try {
 						map[i][j-1].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i][j-1]);
 						System.out.println(i + ", " + j + " added below " + i + ", " + (j-1));
 					} catch (Exception e) {
-						// TODO: handle exception
+						System.out.println("a");
 					}
 					try {
 						map[i][j-2].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i][j-2]);
 						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
 					} catch (Exception e) {
-						// TODO: handle exception
+						System.out.println("b");
 					}
 					try {
 						map[i-1][j-1].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i-1][j-1]);
 						System.out.println(i + ", " + j + " added below and behind " + (i-1) + ", " + (j-1));
 					} catch (Exception e) {
-						// TODO: handle exception
+						System.out.println("c");
+					}
+					try {
+						map[i-1][j+1].addNeighbor(map[i][j]);
+						map[i][j].addNeighbor(map[i-1][j+1]);
+						System.out.println(i + ", " + j + " added below and behind " + (i-1) + ", " + (j-1));
+					} catch (Exception e) {
+						System.out.println("c");
 					}
 				}else{
-					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f)+HEX_WIDTH*0.75f, j*HEX_HEIGHT*0.5f, type);
+					map[i][j] = new Hexagon(i*(HEX_WIDTH+HEX_WIDTH*0.5f)+HEX_WIDTH*0.75f, j*HEX_HEIGHT*0.5f,i,j, type);
 					try {
 						map[i][j-2].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i][j-2]);
 						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
 					} catch (Exception e) {
-						// TODO: handle exception
+						System.out.println("d");
 					}
-					try {
-						map[i+1][j-1].addNeighbor(map[i][j]);
-						map[i][j].addNeighbor(map[i+1][j-1]);
-						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
+//					try {
+//						map[i+1][j-1].addNeighbor(map[i][j]);
+//						map[i][j].addNeighbor(map[i+1][j-1]);
+//						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
+//					} catch (Exception e) {
+//						System.out.println("e");
+//					}
 					try {
 						map[i][j-1].addNeighbor(map[i][j]);
 						map[i][j].addNeighbor(map[i][j-1]);
 						System.out.println(i + ", " + j + " added behind " + (i-1) + ", " + (j));
 					} catch (Exception e) {
-						// TODO: handle exception
+						System.out.println("f");
 					}
 				}
 				if (type == TileType.GOLD) {
