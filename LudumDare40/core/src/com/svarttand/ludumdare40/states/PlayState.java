@@ -46,7 +46,7 @@ public class PlayState extends State{
 		textureAtlas = gsm.assetManager.get("ThePack.pack", TextureAtlas.class);
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		map = new HexagonMap(20, 20);
+		map = new HexagonMap(22, 22);
 		controller = new GameController(this);
 		multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(controller);

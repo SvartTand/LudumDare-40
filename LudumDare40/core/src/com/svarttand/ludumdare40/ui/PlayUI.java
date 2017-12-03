@@ -52,6 +52,9 @@ public class PlayUI {
 	private Label unitInfoText;
 	private Label hexInfoText;
 	
+	private Label builderCost;
+	private Label warriorCost;
+	
 	private Unit selectedUnit;
 	private Hexagon selectedHexagon;
 	 
@@ -85,6 +88,14 @@ public class PlayUI {
 	    hexInfoText = new Label("Tile:", new LabelStyle(font, Color.WHITE));
 	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.05f);
 	    
+	    builderCost = new Label(UnitType.WORKER.getFoodCost() + "," + UnitType.WORKER.getWoodCost() + "," + UnitType.WORKER.getGoldCost(), new LabelStyle(font, Color.WHITE));
+	    builderCost.setPosition(Application.V_WIDTH *0.125f, Application.V_HEIGHT*0.085f);
+	    
+	    warriorCost = new Label(UnitType.WARRIOR.getFoodCost() + "," + UnitType.WARRIOR.getWoodCost() + "," + UnitType.WARRIOR.getGoldCost() + "", new LabelStyle(font, Color.WHITE));
+	    warriorCost.setPosition(Application.V_WIDTH *0.2f, Application.V_HEIGHT*0.085f);
+	    
+	    stage.addActor(warriorCost);
+	    stage.addActor(builderCost);
 	    stage.addActor(hexInfoText);
 	    stage.addActor(resourcesText);
 	    stage.addActor(objectiveText);
@@ -109,7 +120,7 @@ public class PlayUI {
 	    stage.addActor(moveCommandButton);
 	    
 	    
-	    makeBuilderButton = new TextButton("Builder", style);
+	    makeBuilderButton = new TextButton("Worker", style);
 	    makeBuilderButton.setPosition(Application.V_WIDTH*0.125f, Application.V_HEIGHT*0.11f);
 	    makeBuilderButton.addListener( new ClickListener() {
 	         @Override
@@ -216,7 +227,7 @@ public class PlayUI {
 	
 	public void updateUnitText(){
 		unitInfoText.setText("Unit:\n" + selectedUnit);
-		hexInfoText.setText("Tile:\n" + selectedHexagon);
+		hexInfoText.setText("Tile:\n" + selectedHexagon + " /turn");
 	}
 	
 	
@@ -231,9 +242,20 @@ public class PlayUI {
 			batch.draw(atlas.findRegion(selectedHexagon.getPath()),Application.V_WIDTH*0.02f, Application.V_HEIGHT*0.1f);
 		}
 		batch.draw(atlas.findRegion("TopCorner"),0, Application.V_HEIGHT - atlas.findRegion("TopCorner").getRegionHeight());
+		//recources
 		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.08f);
 		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.05f);
 		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.02f);
+		//warior Cost
+		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.12f, Application.V_HEIGHT*0.06f);
+		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.145f, Application.V_HEIGHT*0.06f);
+		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.17f, Application.V_HEIGHT*0.06f);
+		//Builder cost
+		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.195f, Application.V_HEIGHT*0.06f);
+		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.22f, Application.V_HEIGHT*0.06f);
+		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.245f, Application.V_HEIGHT*0.06f);
+		
+		
 		batch.end();
 	}
 	

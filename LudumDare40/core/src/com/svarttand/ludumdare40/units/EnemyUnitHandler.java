@@ -33,10 +33,15 @@ public class EnemyUnitHandler implements UHandler{
 	private void addUnit(ArrayList<Hexagon> campList){
 		Random random = new Random();
 		for (int i = 0; i < campList.size(); i++) {
-			int rand = random.nextInt(6);
-			if (rand == 2) {
+			int rand = random.nextInt(100);
+			if (rand <= 20) {
 				if (campList.get(i).getUnit() == null) {
 					unitList.add(campList.get(i).addUnit(UnitType.WARRIOR_ENEMY));
+					System.out.println("Unit Added!");
+				}
+			}else if (rand == 21) {
+				if (campList.get(i).getUnit() == null) {
+					unitList.add(campList.get(i).addUnit(UnitType.TANK_ENEMY));
 					System.out.println("Unit Added!");
 				}
 			}

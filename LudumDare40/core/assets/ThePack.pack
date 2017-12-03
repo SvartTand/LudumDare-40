@@ -136,44 +136,58 @@ ArcherEnemy
   orig: 32, 32
   offset: 0, 0
   index: -1
-Warrior
+BigBadAilien
   rotate: false
   xy: 69, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-WarriorEnemy
+Infantry
   rotate: false
   xy: 103, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Worker
+SnailAiliens
   rotate: false
   xy: 137, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-FoodIcon
+Tank
   rotate: false
-  xy: 869, 195
-  size: 20, 20
-  orig: 20, 20
+  xy: 171, 5
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1
-GoldIcon
+Worker
+  rotate: false
+  xy: 853, 67
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+FoodIcon
   rotate: false
   xy: 199, 43
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
+GoldIcon
+  rotate: false
+  xy: 869, 195
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
 WoodIcon
   rotate: false
-  xy: 171, 17
+  xy: 221, 43
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
