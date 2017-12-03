@@ -7,7 +7,7 @@ public enum UnitType {
 	ARCHER_ENEMY("ArcherEnemy", 2, 2,15,5,5,10,0, true),
 	WARRIOR_ENEMY("SnailAiliens", 2, 1, 20,10, 5,5,0, true),
 	TANK("Tank", 2,1,50,15,20,20,20,false),
-	TANK_ENEMY("BigBadAilien", 2,1,50,15,20,20,20,false);
+	TANK_ENEMY("BigBadAilien", 2,1,50,15,20,20,20,true);
 	
 	private String path;
 	private int movments;

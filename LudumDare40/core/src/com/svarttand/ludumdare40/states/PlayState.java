@@ -2,8 +2,11 @@ package com.svarttand.ludumdare40.states;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -43,6 +46,8 @@ public class PlayState extends State{
 	
 	private ShapeRenderer renderer;
 	
+	private ArrayList<Sound> audioList;
+	
 	public PlayState(GameStateManager gsm, TextureAtlas textureAtlas2) {
 		super(gsm);
 		textureAtlas = textureAtlas2;
@@ -57,6 +62,12 @@ public class PlayState extends State{
 		multiplexer.addProcessor(ui.getStage());
 		
 		Gdx.input.setInputProcessor(multiplexer);
+		
+		audioList = new ArrayList<Sound>();
+		
+		for (int i = 1; i < LoadingState.AUDIO_AMOUNT; i++) {
+			audioList.add(gsm.assetManager.get("Sound/"+ i + ".wav",Sound.class));
+		}
 		
 		unitHandler = new UnitHandler();
 		cam.position.x = map.getStartPos().x;

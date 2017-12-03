@@ -91,8 +91,8 @@ public class PlayUI {
 	    unitInfoText = new Label("Unit:", new LabelStyle(font, Color.WHITE));
 	    unitInfoText.setPosition(Application.V_WIDTH *0.6f, Application.V_HEIGHT*0.05f);
 	    
-	    hexInfoText = new Label("Tile:", new LabelStyle(font, Color.WHITE));
-	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.05f);
+	    hexInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
+	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.035f);
 	    
 	    builderCost = new Label(UnitType.WORKER.getFoodCost() + "," + UnitType.WORKER.getWoodCost() + "," + UnitType.WORKER.getGoldCost(), new LabelStyle(font, Color.WHITE));
 	    builderCost.setPosition(Application.V_WIDTH *0.125f, Application.V_HEIGHT*0.085f);
@@ -229,11 +229,18 @@ public class PlayUI {
 	        	 System.out.println("build pressed");
 	        	 
 	        		 if (selectedUnit != null && selectedUnit.getType() == UnitType.WORKER) {
-	 					selectedHexagon.setType(TileType.CITY);
-	 					game.getMap().addCity(selectedHexagon);
-	 					selectedUnit.remove(game.getUnitHandler());
-	 					selectedUnit = null;
+	        			if (selectedHexagon.getType() != TileType.GOLD) {
+	        				selectedHexagon.setType(TileType.CITY);
+		 					game.getMap().addCity(selectedHexagon);
+		 					selectedUnit.remove(game.getUnitHandler());
+		 					selectedUnit = null;
+						}else{
+							FloatingText temp = new FloatingText("Cant Build on Gold!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+							floatingTexts.add(temp);
+							stage.addActor(temp.getLabel());
+						}
 	 					updateButtons();
+	 					
 	 				}
 	        	 
 	        	 
@@ -276,7 +283,7 @@ public class PlayUI {
 	
 	public void updateUnitText(){
 		unitInfoText.setText("Unit:\n" + selectedUnit);
-		hexInfoText.setText("Tile:\n" + selectedHexagon + " /turn");
+		hexInfoText.setText(selectedHexagon + " /turn");
 	}
 	
 	public void updateFloatinTexts(float delta){
@@ -295,7 +302,7 @@ public class PlayUI {
 		batch.begin();
 		batch.draw(atlas.findRegion("UiBar"), 0, 0);
 		if (selectedUnit != null) {
-			batch.draw(atlas.findRegion(selectedUnit.getPath()),Application.V_WIDTH*0.6f, Application.V_HEIGHT*0.11f);
+			batch.draw(atlas.findRegion(selectedUnit.getPath()),Application.V_WIDTH*0.575f, Application.V_HEIGHT*0.095f, atlas.findRegion(selectedUnit.getPath()).getRegionWidth()*2, atlas.findRegion(selectedUnit.getPath()).getRegionHeight()*2 );
 		}
 		if (selectedHexagon != null) {
 			batch.draw(atlas.findRegion(selectedHexagon.getPath()),Application.V_WIDTH*0.02f, Application.V_HEIGHT*0.1f);
