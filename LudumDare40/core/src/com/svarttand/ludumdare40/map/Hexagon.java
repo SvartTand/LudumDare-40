@@ -92,7 +92,7 @@ public class Hexagon {
 	}
 	
 	public String toString(){
-		return type.getPath() + "\n" + "Movment cost " + type.getMovmentCost() + ", Provides: \nFood: " + type.getFood() + ", Wood: " + type.getWood() + ", Gold: " + type.getGold() ;
+		return type.getPath() + ": Movment cost " + type.getMovmentCost() + ", Provides: \nFood: " + type.getFood() + ", Wood: " + type.getWood() + ", Gold: " + type.getGold() ;
 	}
 	
 	public boolean hasUnit(){

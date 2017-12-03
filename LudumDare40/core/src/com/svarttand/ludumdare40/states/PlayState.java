@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.HexagonMap;
+import com.svarttand.ludumdare40.map.TileType;
 import com.svarttand.ludumdare40.misc.GameController;
 import com.svarttand.ludumdare40.misc.ResourceHandler;
 import com.svarttand.ludumdare40.ui.PlayUI;
@@ -56,12 +57,13 @@ public class PlayState extends State{
 		textureAtlas = textureAtlas2;
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		map = new HexagonMap(10, 22);
+		map = new HexagonMap(10, 22, gsm);
 		controller = new GameController(this);
 		multiplexer = new InputMultiplexer();
 
 		resourceHandler = new ResourceHandler(5,5,5);
 		ui = new PlayUI(textureAtlas, this);
+		map.updateBorders(ui);
 		multiplexer.addProcessor(ui.getStage());
 		multiplexer.addProcessor(controller);
 		
@@ -144,7 +146,7 @@ public class PlayState extends State{
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		ui.dispose();
 		
 	}
 

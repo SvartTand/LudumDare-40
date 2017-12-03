@@ -55,8 +55,12 @@ public class PlayUI {
 	private Label unitInfoText;
 	private Label hexInfoText;
 
-	
+
 	private Label buildInfoText;
+	
+	private Label foodText;
+	private Label goldText;
+	private Label woodText;
 	
 	private Unit selectedUnit;
 	private Hexagon selectedHexagon;
@@ -95,12 +99,26 @@ public class PlayUI {
 	    unitInfoText.setPosition(Application.V_WIDTH *0.6f, Application.V_HEIGHT*0.05f);
 	    
 	    hexInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
-	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.035f);
+	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.06f);
 	    
 	    buildInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
 	    buildInfoText.setPosition(Application.V_WIDTH *0.115f, Application.V_HEIGHT*0.2f);
 	    
+	    buildInfoText = new Label("", new LabelStyle(font, Color.WHITE));
+	    buildInfoText.setPosition(Application.V_WIDTH *0.115f, Application.V_HEIGHT*0.2f);
+	    
+	    foodText = new Label("10", new LabelStyle(font, Color.WHITE));
+	    foodText.setPosition(Application.V_WIDTH *0.06f, Application.V_HEIGHT*0.02f);
+	    goldText = new Label("10", new LabelStyle(font, Color.WHITE));
+	    goldText.setPosition(Application.V_WIDTH *0.305f, Application.V_HEIGHT*0.02f);
+	    woodText = new Label("10", new LabelStyle(font, Color.WHITE));
+	    woodText.setPosition(Application.V_WIDTH *0.36f, Application.V_HEIGHT*0.02f);
+	    
 	    buildInfoText.setVisible(false);
+	    
+	    stage.addActor(woodText);
+	    stage.addActor(goldText);
+	    stage.addActor(foodText);
 	    
 	    stage.addActor(buildInfoText);
 	    stage.addActor(hexInfoText);
@@ -309,6 +327,8 @@ public class PlayUI {
 		updateUnitText();
 	}
 	
+	
+	
 	public void updateUnitText(){
 		unitInfoText.setText("Unit:\n" + selectedUnit);
 		hexInfoText.setText(selectedHexagon + " /turn");
@@ -341,7 +361,9 @@ public class PlayUI {
 		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.05f);
 		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.02f);
 		
-		
+		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.27f, Application.V_HEIGHT*0.02f);
+		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.33f, Application.V_HEIGHT*0.02f);
+		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.39f, Application.V_HEIGHT*0.02f);
 		
 		for (int i = 0; i < floatingTexts.size(); i++) {
 			floatingTexts.get(i).getLabel().draw(batch, 1);
@@ -420,6 +442,14 @@ public class PlayUI {
 	
 	public void resize(int width, int height){
 		viewport.update(width, height);
+	}
+
+	public void updateGain(int food, int gold, int wood) {
+		foodText.setText("Total Increase per turn: " + food);
+		goldText.setText("" + gold);
+		woodText.setText("" + wood);
+		
+		
 	}
 
 }

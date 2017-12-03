@@ -57,7 +57,7 @@ public class GameController implements InputProcessor{
 				currentSelected.setSelected(BorderType.NULL);
 				previousSelected = currentSelected;
 			}
-			game.getMap().updateBorders();
+			game.getMap().updateBorders(game.getUI());
 			if (currentCommand == Command.NO_COMMAND) {
 				if (button == 0) {
 					try {

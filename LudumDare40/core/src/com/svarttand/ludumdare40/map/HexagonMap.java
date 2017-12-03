@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.misc.ResourceHandler;
+import com.svarttand.ludumdare40.states.GameStateManager;
+import com.svarttand.ludumdare40.states.PlayState;
+import com.svarttand.ludumdare40.ui.PlayUI;
 import com.svarttand.ludumdare40.units.Unit;
 
 
@@ -27,11 +30,13 @@ public class HexagonMap {
 	private ArrayList<Hexagon> goldList;
 	private ArrayList<Hexagon> ownedGold;
 	
+	private GameStateManager gsm;
 	
 	private Random random;
 	
 	
-	public HexagonMap(int x, int y){
+	public HexagonMap(int x, int y, GameStateManager gsm){
+		this.gsm = gsm;
 		sizeX = x;
 		sizeY = y;
 		map = new Hexagon[x][y];
@@ -49,7 +54,7 @@ public class HexagonMap {
 		map[randx][randy].setType(TileType.CITY);
 		startPos = new Vector2(map[randx][randy].getPosX(), map[randx][randy].getPosY());
 		addCity(map[randx][randy]);
-		updateBorders();
+		//updateBorders(game.getUI());
 	}
 	
 	private void createMap(Random random){
@@ -197,16 +202,26 @@ public class HexagonMap {
 		
 	}
 	
-	public void updateBorders(){
+	public void updateBorders(PlayUI ui){
+		int wood = 0;
+		int food = 0;
+		int gold = 0;
 		for (int i = 0; i < cityList.size(); i++) {
 			cityList.get(i).setSelected(BorderType.BLUE);
+			wood += cityList.get(i).getType().getWood();
+			food += cityList.get(i).getType().getFood();
+			gold += cityList.get(i).getType().getGold();
 			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
 				cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
+				wood += cityList.get(i).getNeighbors().get(j).getType().getWood();
+				food += cityList.get(i).getNeighbors().get(j).getType().getFood();
+				gold += cityList.get(i).getNeighbors().get(j).getType().getGold();
 				if (cityList.get(i).getNeighbors().get(j).getType() == TileType.GOLD) {
 					
 				}
 			}
 		}
+		ui.updateGain(food, gold, wood);
 		if (ownedGold.size() == getTotalGold()) {
 			System.out.println("game won");
 		}
@@ -229,7 +244,7 @@ public class HexagonMap {
 			}
 		}else{
 			System.out.println("Game Lost!");
-			Gdx.app.exit();
+			gsm.pop();
 		}
 		removeGold(city.getNeighbors());
 		
