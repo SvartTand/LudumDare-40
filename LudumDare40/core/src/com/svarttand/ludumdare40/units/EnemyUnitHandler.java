@@ -3,18 +3,27 @@ package com.svarttand.ludumdare40.units;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.map.HexagonMap;
+import com.svarttand.ludumdare40.misc.FloatingText;
 
 public class EnemyUnitHandler implements UHandler{
 	
 	private ArrayList<Unit> unitList;
 	
-	public EnemyUnitHandler(){
+	private ArrayList<FloatingText> floatingTexts;
+	private BitmapFont font;
+	
+	public EnemyUnitHandler(BitmapFont font){
 		unitList = new ArrayList<Unit>();
+		floatingTexts = new ArrayList<FloatingText>();
+		this.font = font;
 	}
 	
 	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList, ArrayList<Hexagon> campList, UnitHandler handler, HexagonMap map){
@@ -28,6 +37,14 @@ public class EnemyUnitHandler implements UHandler{
 			unitList.get(i).moveNext(this, handler, map);
 		}
 		addUnit(campList);
+	}
+	
+	public void updateDelta(float delta){
+		for (int i = 0; i < floatingTexts.size(); i++) {
+			if (floatingTexts.get(i).update(delta)) {
+				floatingTexts.remove(i);
+			}
+		}
 	}
 	
 	private void addUnit(ArrayList<Hexagon> campList){
@@ -53,6 +70,9 @@ public class EnemyUnitHandler implements UHandler{
 		for (int i = 0; i < unitList.size(); i++) {
 			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
 		}
+		for (int i = 0; i < floatingTexts.size(); i++) {
+			floatingTexts.get(i).getLabel().draw(batch, 1);
+		}
 	}
 
 	@Override
@@ -72,6 +92,12 @@ public class EnemyUnitHandler implements UHandler{
 		for (int i = 0; i < unitList.size(); i++) {
 			unitList.get(i).getHpBar().render(renderer);
 		}
+		
+	}
+
+	@Override
+	public void addFloatingText(String text, float posx, float posy) {
+		floatingTexts.add(new FloatingText(text, posx, posy, TEXT_DURATION, new LabelStyle(font, Color.RED), true));
 		
 	}
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.map.TileType;
+import com.svarttand.ludumdare40.misc.FloatingText;
 
 public class Unit {
 	
@@ -27,6 +28,7 @@ public class Unit {
 	private LinkedList<Hexagon> movmentPath;
 	
 	private HealthBar hpBar;
+	
 	
 	public Unit(Hexagon hex, UnitType t){
 		type = t;
@@ -89,6 +91,8 @@ public class Unit {
 		System.out.println("Results Defender Hp = " + hex.getUnit().health + ", dmg dealt: " + rand2);
 		hpBar.update(health, pos.x, pos.y);
 		hex.getUnit().getHpBar().update(hex.getUnit().health, hex.getUnit().getPos().x, hex.getUnit().getPos().y);
+		handlerAttack.addFloatingText("-" +(int) rand2 * hex.getUnit().getHex().getType().getDefAmplifier(), pos.x, pos.y);
+		handlerDef.addFloatingText("-" + (int) rand1 * currentPos.getType().getAttackAmplifier(), hex.getUnit().pos.x, hex.getUnit().pos.y);
 		if (health <= 0 && hex.getUnit().health <= 0) {
 			if (health > hex.getUnit().health) {
 				health = 1;

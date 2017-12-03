@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -48,6 +49,8 @@ public class PlayState extends State{
 	
 	private ArrayList<Sound> audioList;
 	
+	private BitmapFont font;
+	
 	public PlayState(GameStateManager gsm, TextureAtlas textureAtlas2) {
 		super(gsm);
 		textureAtlas = textureAtlas2;
@@ -61,6 +64,8 @@ public class PlayState extends State{
 		ui = new PlayUI(textureAtlas, this);
 		multiplexer.addProcessor(ui.getStage());
 		
+		font = new BitmapFont();
+		
 		Gdx.input.setInputProcessor(multiplexer);
 		
 		audioList = new ArrayList<Sound>();
@@ -69,12 +74,12 @@ public class PlayState extends State{
 			audioList.add(gsm.assetManager.get("Sound/"+ i + ".wav",Sound.class));
 		}
 		
-		unitHandler = new UnitHandler();
+		unitHandler = new UnitHandler(font);
 		cam.position.x = map.getStartPos().x;
 		cam.position.y = Application.V_HEIGHT*0.3f;
 		
 		resourceHandler = new ResourceHandler(5,5,5);
-		enemyUnitHandler = new EnemyUnitHandler();
+		enemyUnitHandler = new EnemyUnitHandler(font);
 		
 		renderer = new ShapeRenderer();
 	}
@@ -110,6 +115,8 @@ public class PlayState extends State{
 	public void update(float delta) {
 		handleInput(delta);
 		ui.updateFloatinTexts(delta);
+		unitHandler.updateDelta(delta);
+		enemyUnitHandler.updateDelta(delta);
 		
 	}
 

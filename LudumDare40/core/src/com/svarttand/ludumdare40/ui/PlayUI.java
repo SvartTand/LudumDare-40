@@ -146,7 +146,7 @@ public class PlayUI {
 						System.out.println("Not enough money!");
 						FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 						floatingTexts.add(temp);
-						stage.addActor(temp.getLabel());
+						//stage.addActor(temp.getLabel());
 					}
 	        		
 				}
@@ -176,7 +176,7 @@ public class PlayUI {
 							System.out.println("Not enough money!");
 							FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 							floatingTexts.add(temp);
-							stage.addActor(temp.getLabel());
+							//stage.addActor(temp.getLabel());
 						}
 				}
 	        	 makeWarriorButton.setChecked(false);
@@ -207,7 +207,7 @@ public class PlayUI {
 						System.out.println("Not enough money!");
 						FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 						floatingTexts.add(temp);
-						stage.addActor(temp.getLabel());
+						//stage.addActor(temp.getLabel());
 					}
 	        		
 				}
@@ -320,7 +320,9 @@ public class PlayUI {
 		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.195f, Application.V_HEIGHT*0.06f);
 		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.22f, Application.V_HEIGHT*0.06f);
 		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.245f, Application.V_HEIGHT*0.06f);
-		
+		for (int i = 0; i < floatingTexts.size(); i++) {
+			floatingTexts.get(i).getLabel().draw(batch, 1);
+		}
 		
 		batch.end();
 	}
