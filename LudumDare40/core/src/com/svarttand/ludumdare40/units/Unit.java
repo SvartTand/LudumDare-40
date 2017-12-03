@@ -85,14 +85,16 @@ public class Unit {
 		int rand1 = random.nextInt((type.getDmg() - 5)) + 5;
 		int rand2 = random.nextInt((type.getDmg() - 7)) + 7;
 		System.out.println("ATTACK!");
-		health -= rand2 * hex.getUnit().getHex().getType().getDefAmplifier();
-		hex.getUnit().health -= rand1 * currentPos.getType().getAttackAmplifier();
+		rand2 = (int) (rand2 * hex.getUnit().getHex().getType().getDefAmplifier());
+		rand1 = (int) (rand1 * currentPos.getType().getAttackAmplifier());
+		health -= rand2;
+		hex.getUnit().health -= rand1;
 		System.out.println("Results Attacker Hp = " + health + ", dmg dealt: " + rand1);
 		System.out.println("Results Defender Hp = " + hex.getUnit().health + ", dmg dealt: " + rand2);
 		hpBar.update(health, pos.x, pos.y);
 		hex.getUnit().getHpBar().update(hex.getUnit().health, hex.getUnit().getPos().x, hex.getUnit().getPos().y);
-		handlerAttack.addFloatingText("-" +(int) rand2 * hex.getUnit().getHex().getType().getDefAmplifier(), pos.x, pos.y);
-		handlerDef.addFloatingText("-" + (int) rand1 * currentPos.getType().getAttackAmplifier(), hex.getUnit().pos.x, hex.getUnit().pos.y);
+		handlerAttack.addFloatingText("-" + rand2, pos.x, pos.y);
+		handlerDef.addFloatingText("-" +rand1, hex.getUnit().pos.x, hex.getUnit().pos.y);
 		if (health <= 0 && hex.getUnit().health <= 0) {
 			if (health > hex.getUnit().health) {
 				health = 1;
