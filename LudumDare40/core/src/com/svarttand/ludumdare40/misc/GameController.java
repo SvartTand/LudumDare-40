@@ -85,7 +85,7 @@ public class GameController implements InputProcessor{
 							if (currentSelected.getUnit() != null) {
 								previousSelected.getUnit().attack(currentSelected, game.getEnemyUnitHandler(), game.getUnitHandler());
 							}else{
-								previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost());
+								previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost(), game.getMap());
 								if (currentSelected.getType() == TileType.CAMP) {
 									currentSelected.setType(currentSelected.getPreviousType());
 									game.getMap().removeCamp(currentSelected);

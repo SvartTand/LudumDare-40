@@ -156,7 +156,7 @@ public class PlayState extends State{
 		unitHandler.nextTurn();
 		map.update(resourceHandler);
 		ui.update(resourceHandler, map);
-		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList(), unitHandler);
+		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList(), unitHandler, map);
 		System.out.println("finished updating");
 	}
 	

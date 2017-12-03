@@ -3,6 +3,7 @@ package com.svarttand.ludumdare40.map;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -24,7 +25,7 @@ public class HexagonMap {
 	private ArrayList<Hexagon> cityList;
 	private ArrayList<Hexagon> campList;
 	private ArrayList<Hexagon> goldList;
-	private int ownedGold;
+	private ArrayList<Hexagon> ownedGold;
 	
 	
 	private Random random;
@@ -40,7 +41,7 @@ public class HexagonMap {
 		cityList = new ArrayList<Hexagon>();
 		campList = new ArrayList<Hexagon>();
 		
-		ownedGold = 0;
+		ownedGold = new ArrayList<Hexagon>();
 		
 		int randx = random.nextInt((sizeX - 5)) + 3;
 		int randy = random.nextInt((sizeY - 5)) + 3;
@@ -166,6 +167,9 @@ public class HexagonMap {
 		for (int i = 0; i < cityList.size(); i++) {
 			cityList.get(i).setSelected(BorderType.BLUE);
 			handler.addTilesResourcers(cityList.get(i));
+			if (temp.getType() == TileType.GOLD) {
+				notPossibleLocation = true;
+			}
 			if (temp.isSame(cityList.get(i))) {
 				notPossibleLocation = true;
 			}
@@ -187,15 +191,17 @@ public class HexagonMap {
 	}
 	
 	public void updateBorders(){
-		ownedGold = 0;
 		for (int i = 0; i < cityList.size(); i++) {
 			cityList.get(i).setSelected(BorderType.BLUE);
 			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
 				cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
 				if (cityList.get(i).getNeighbors().get(j).getType() == TileType.GOLD) {
-					ownedGold++;
+					
 				}
 			}
+		}
+		if (ownedGold.size() == getTotalGold()) {
+			System.out.println("game won");
 		}
 	}
 
@@ -204,14 +210,22 @@ public class HexagonMap {
 		for (int i = 0; i < selectedHexagon.getNeighbors().size(); i++) {
 			selectedHexagon.getNeighbors().get(i).setSelected(BorderType.BLUE);
 		}
+		addGold(selectedHexagon.getNeighbors());
 	}
 	
 	public void removeCity(Hexagon city){
-		cityList.remove(city);
-		city.setType(city.getPreviousType());
-		for (int i = 0; i < city.getNeighbors().size(); i++) {
-			city.getNeighbors().get(i).setSelected(BorderType.NULL);
+		if (cityList.size()> 1) {
+			cityList.remove(city);
+			city.setType(city.getPreviousType());
+			for (int i = 0; i < city.getNeighbors().size(); i++) {
+				city.getNeighbors().get(i).setSelected(BorderType.NULL);
+			}
+		}else{
+			System.out.println("Game Lost!");
+			Gdx.app.exit();
 		}
+		removeGold(city.getNeighbors());
+		
 	}
 
 	public ArrayList<Hexagon> getCityList() {
@@ -233,7 +247,40 @@ public class HexagonMap {
 	}
 	
 	public int getOwnedGold(){
-		return ownedGold;
+		return ownedGold.size();
+	}
+	
+	public void addGold(ArrayList<Hexagon> neghbors){
+		for (int i = 0; i < neghbors.size(); i++) {
+			if (neghbors.get(i).getType() == TileType.GOLD) {
+				boolean alreadyInList = false;
+				for (int j = 0; j < ownedGold.size(); j++) {
+					if (neghbors.get(i).isSame(ownedGold.get(j))) {
+						alreadyInList = true;
+					}
+				}
+				if (!alreadyInList) {
+					ownedGold.add(neghbors.get(i));
+				}
+			}
+			
+		}
+	}
+	
+	public void removeGold(ArrayList<Hexagon> neghbors){
+		for (int i = 0; i < neghbors.size(); i++) {
+			if (neghbors.get(i).getType() == TileType.GOLD) {
+				boolean hasCity = false;
+				for (int j = 0; j < neghbors.get(i).getNeighbors().size(); j++) {
+					if (neghbors.get(i).getNeighbors().get(j).getType() == TileType.CITY) {
+						hasCity = true;
+					}
+				}
+				if (!hasCity) {
+					ownedGold.remove(neghbors.get(i));
+				}
+			}
+		}
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.map.TileType;
 
 public class Unit {
@@ -62,7 +63,7 @@ public class Unit {
 		return type;
 	}
 
-	public void move(Hexagon newPos, int movmentCost) {
+	public void move(Hexagon newPos, int movmentCost, HexagonMap map) {
 		currentPos.setHasUnit(false);
 		currentPos.setUnit(null);
 		currentPos = newPos;
@@ -72,7 +73,7 @@ public class Unit {
 		updatePos();
 		hpBar.update(health, pos.x, pos.y);
 		if (type.isEnemy() && currentPos.getType() == TileType.CITY) {
-			currentPos.setType(TileType.GRASS);
+			map.removeCity(currentPos);
 		}
 		
 	}
@@ -228,12 +229,12 @@ public class Unit {
 		
 	}
 
-	public void moveNext(EnemyUnitHandler enemyUnitHandler, UnitHandler unitHandler) {
+	public void moveNext(EnemyUnitHandler enemyUnitHandler, UnitHandler unitHandler, HexagonMap map) {
 		while(movmentsLeft > 0){
 			if (!movmentPath.isEmpty()) {
 				
 				if (movmentPath.getLast().getUnit() == null) {
-					move(movmentPath.getLast(), movmentPath.removeLast().getType().getMovmentCost());
+					move(movmentPath.getLast(), movmentPath.removeLast().getType().getMovmentCost(), map);
 				}else if (!movmentPath.getLast().getUnit().getType().isEnemy()) {
 					attack(movmentPath.getLast(), unitHandler, enemyUnitHandler);
 				}else {

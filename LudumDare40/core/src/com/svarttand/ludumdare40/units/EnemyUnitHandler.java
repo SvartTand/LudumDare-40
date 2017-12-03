@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.map.HexagonMap;
 
 public class EnemyUnitHandler implements UHandler{
 	
@@ -16,7 +17,7 @@ public class EnemyUnitHandler implements UHandler{
 		unitList = new ArrayList<Unit>();
 	}
 	
-	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList, ArrayList<Hexagon> campList, UnitHandler handler){
+	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList, ArrayList<Hexagon> campList, UnitHandler handler, HexagonMap map){
 		System.out.println("unitHandling updating...");
 		for (int i = 0; i < unitList.size(); i++) {
 			System.out.println("Unit " + i + "/" + unitList.size());
@@ -24,7 +25,7 @@ public class EnemyUnitHandler implements UHandler{
 			System.out.println("calculating route...");
 			unitList.get(i).calculateRoute(cityList, friendlyUnitList);
 			System.out.println("moving unit...");
-			unitList.get(i).moveNext(this, handler);
+			unitList.get(i).moveNext(this, handler, map);
 		}
 		addUnit(campList);
 	}
