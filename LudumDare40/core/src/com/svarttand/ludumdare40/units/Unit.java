@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.map.TileType;
 
 public class Unit {
 	
@@ -70,6 +71,9 @@ public class Unit {
 		currentPos.setHasUnit(true);
 		updatePos();
 		hpBar.update(health, pos.x, pos.y);
+		if (type.isEnemy() && currentPos.getType() == TileType.CITY) {
+			currentPos.setType(TileType.GRASS);
+		}
 		
 	}
 	
@@ -251,6 +255,10 @@ public class Unit {
 			return true;
 		}
 		return false;
+	}
+	
+	public String toString(){
+		return type.getPath()+ ", Attack: " + type.getDmg() + ", Health: " + health +"/" + type.getHp() + "\nMovments:" + movmentsLeft + "/" + type.getMovments();
 	}
 	
 

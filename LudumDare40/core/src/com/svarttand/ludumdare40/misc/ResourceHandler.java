@@ -1,5 +1,7 @@
 package com.svarttand.ludumdare40.misc;
 
+import java.util.ArrayList;
+
 import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.units.UnitType;
 
@@ -8,6 +10,7 @@ public class ResourceHandler {
 	private int wood;
 	private int gold;
 	private int food;
+	
 	
 	public ResourceHandler(int wood, int gold, int food){
 		this.wood = wood;

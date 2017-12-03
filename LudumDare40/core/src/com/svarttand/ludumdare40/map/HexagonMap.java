@@ -23,6 +23,9 @@ public class HexagonMap {
 	
 	private ArrayList<Hexagon> cityList;
 	private ArrayList<Hexagon> campList;
+	private ArrayList<Hexagon> goldList;
+	private int ownedGold;
+	
 	
 	private Random random;
 	
@@ -31,16 +34,21 @@ public class HexagonMap {
 		sizeX = x;
 		sizeY = y;
 		map = new Hexagon[x][y];
+		goldList = new ArrayList<Hexagon>();
 		random = new Random();
 		createMap(random);
 		cityList = new ArrayList<Hexagon>();
 		campList = new ArrayList<Hexagon>();
+		
+		ownedGold = 0;
+		
 		int randx = random.nextInt((sizeX - 5)) + 3;
 		int randy = random.nextInt((sizeY - 5)) + 3;
 		
 		map[randx][randy].setType(TileType.CITY);
 		startPos = new Vector2(map[randx][randy].getPosX(), map[randx][randy].getPosY());
 		addCity(map[randx][randy]);
+		updateBorders();
 	}
 	
 	private void createMap(Random random){
@@ -104,6 +112,9 @@ public class HexagonMap {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
+				}
+				if (type == TileType.GOLD) {
+					goldList.add(map[i][j]);
 				}
 			}
 		}
@@ -176,10 +187,14 @@ public class HexagonMap {
 	}
 	
 	public void updateBorders(){
+		ownedGold = 0;
 		for (int i = 0; i < cityList.size(); i++) {
 			cityList.get(i).setSelected(BorderType.BLUE);
 			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
 				cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
+				if (cityList.get(i).getNeighbors().get(j).getType() == TileType.GOLD) {
+					ownedGold++;
+				}
 			}
 		}
 	}
@@ -212,5 +227,15 @@ public class HexagonMap {
 		campList.remove(currentPos);
 		
 	}
+	
+	public int getTotalGold(){
+		return goldList.size();
+	}
+	
+	public int getOwnedGold(){
+		return ownedGold;
+	}
+	
+	
 
 }

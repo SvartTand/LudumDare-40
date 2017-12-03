@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.svarttand.ludumdare40.Application;
 import com.svarttand.ludumdare40.map.Hexagon;
+import com.svarttand.ludumdare40.map.HexagonMap;
 import com.svarttand.ludumdare40.map.TileType;
 import com.svarttand.ludumdare40.misc.Command;
 import com.svarttand.ludumdare40.misc.ResourceHandler;
@@ -42,14 +43,14 @@ public class PlayUI {
 	private Button exitButton;
 	
 	private Button moveCommandButton;
-	private Button attackCommandButton;
 	private Button BuildCommandButton;
 	private Button makeWarriorButton;
 	private Button makeBuilderButton;
 	
 	private Label resourcesText;
-	private Label buildingInfoText;
+	private Label objectiveText;
 	private Label unitInfoText;
+	private Label hexInfoText;
 	
 	private Unit selectedUnit;
 	private Hexagon selectedHexagon;
@@ -70,11 +71,24 @@ public class PlayUI {
 	    style.up = skin.getDrawable("Button");
 	    style.down = skin.getDrawable("ButtonPressed");
 	    style.checked = skin.getDrawable("ButtonPressed");
+	    style.disabled = skin.getDrawable("ButtonDisabled");
 	    
 	    resourcesText = new Label("Food: " + game.getResources().getFood() + "\nGold: " + game.getResources().getGold() +"\nWood: " + game.getResources().getWood(), new LabelStyle(font, Color.WHITE));
 	    resourcesText.setPosition(Application.V_WIDTH *0.48f, Application.V_HEIGHT*0.03f);
 	    
+	    objectiveText = new Label("OBJECIVE:\nControl all the gold.\n" + game.getMap().getOwnedGold() + "/" + game.getMap().getTotalGold(), new LabelStyle(font, Color.WHITE));
+	    objectiveText.setPosition(Application.V_WIDTH *0.01f, Application.V_HEIGHT*0.925f);
+	    
+	    unitInfoText = new Label("Unit:", new LabelStyle(font, Color.WHITE));
+	    unitInfoText.setPosition(Application.V_WIDTH *0.6f, Application.V_HEIGHT*0.05f);
+	    
+	    hexInfoText = new Label("Tile:", new LabelStyle(font, Color.WHITE));
+	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.05f);
+	    
+	    stage.addActor(hexInfoText);
 	    stage.addActor(resourcesText);
+	    stage.addActor(objectiveText);
+	    stage.addActor(unitInfoText);
 	    
 	    moveCommandButton = new TextButton("Move", style);
 	    moveCommandButton.setPosition(Application.V_WIDTH*0.75f, Application.V_HEIGHT*0.11f);
@@ -94,16 +108,6 @@ public class PlayUI {
 	    buttonList.add(moveCommandButton);
 	    stage.addActor(moveCommandButton);
 	    
-	    attackCommandButton = new TextButton("Attack", style);
-	    attackCommandButton.setPosition(Application.V_WIDTH*0.825f, Application.V_HEIGHT*0.11f);
-	    attackCommandButton.addListener( new ClickListener() {
-	         @Override
-	         public void clicked(InputEvent event, float x, float y) {
-	        	 System.out.println("Attack pressed");
-	            }
-	        });
-	    buttonList.add(attackCommandButton);
-	    stage.addActor(attackCommandButton);
 	    
 	    makeBuilderButton = new TextButton("Builder", style);
 	    makeBuilderButton.setPosition(Application.V_WIDTH*0.125f, Application.V_HEIGHT*0.11f);
@@ -120,7 +124,7 @@ public class PlayUI {
 	 					updateButtons();
 	 					
 	 					game.getResources().removeCost(UnitType.WORKER);
-	 					update(game.getResources());
+	 					update(game.getResources(), game.getMap());
 					}else{
 						System.out.println("Not enough money!");
 					}
@@ -147,7 +151,7 @@ public class PlayUI {
 		 					updateButtons();
 		 					
 		 					game.getResources().removeCost(UnitType.WARRIOR);
-		 					update(game.getResources());
+		 					update(game.getResources(), game.getMap());
 						}else{
 							System.out.println("Not enough money!");
 						}
@@ -159,7 +163,7 @@ public class PlayUI {
 	    stage.addActor(makeWarriorButton);
 	    
 	    BuildCommandButton = new TextButton("Build", style);
-	    BuildCommandButton.setPosition(Application.V_WIDTH*0.9f, Application.V_HEIGHT*0.11f);
+	    BuildCommandButton.setPosition(Application.V_WIDTH*0.825f, Application.V_HEIGHT*0.11f);
 	    BuildCommandButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
@@ -196,17 +200,23 @@ public class PlayUI {
 	            }
 	        });
 	    stage.addActor(endTurnButton);
-	    moveCommandButton.setVisible(false);
-		attackCommandButton.setVisible(false);
-		makeBuilderButton.setVisible(false);
-		makeWarriorButton.setVisible(false);
-		BuildCommandButton.setVisible(false);
+	    moveCommandButton.setDisabled(true);
+		makeBuilderButton.setDisabled(true);
+		makeWarriorButton.setDisabled(true);
+		BuildCommandButton.setDisabled(true);
 	    
 	}
 	
-	public void update(ResourceHandler resources){
+	public void update(ResourceHandler resources, HexagonMap map){
 		System.out.println("resource Update");
 		resourcesText.setText("Food: " + resources.getFood() + "\nGold: " + resources.getGold() +"\nWood: " + resources.getWood());
+		objectiveText.setText("OBJECIVE:\nControl all the gold.\n" + map.getOwnedGold() + "/" + map.getTotalGold());
+		updateUnitText();
+	}
+	
+	public void updateUnitText(){
+		unitInfoText.setText("Unit:\n" + selectedUnit);
+		hexInfoText.setText("Tile:\n" + selectedHexagon);
 	}
 	
 	
@@ -220,6 +230,7 @@ public class PlayUI {
 		if (selectedHexagon != null) {
 			batch.draw(atlas.findRegion(selectedHexagon.getPath()),Application.V_WIDTH*0.02f, Application.V_HEIGHT*0.1f);
 		}
+		batch.draw(atlas.findRegion("TopCorner"),0, Application.V_HEIGHT - atlas.findRegion("TopCorner").getRegionHeight());
 		batch.draw(atlas.findRegion("FoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.08f);
 		batch.draw(atlas.findRegion("GoldIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.05f);
 		batch.draw(atlas.findRegion("WoodIcon"),Application.V_WIDTH*0.45f, Application.V_HEIGHT*0.02f);
@@ -242,23 +253,22 @@ public class PlayUI {
 	
 	private void updateButtons(){
 		if (selectedHexagon.getType() == TileType.CITY) {
-			makeBuilderButton.setVisible(true);
-			makeWarriorButton.setVisible(true);
+			makeBuilderButton.setDisabled(false);
+			makeWarriorButton.setDisabled(false);
 		}else{
-			makeBuilderButton.setVisible(false);
-			makeWarriorButton.setVisible(false);
+			makeBuilderButton.setDisabled(true);
+			makeWarriorButton.setDisabled(true);
 		}
 		if (selectedUnit == null) {
-			moveCommandButton.setVisible(false);
-			attackCommandButton.setVisible(false);
-			BuildCommandButton.setVisible(false);
+			moveCommandButton.setDisabled(true);
+			BuildCommandButton.setDisabled(true);
 		}else{
-			moveCommandButton.setVisible(true);
-			attackCommandButton.setVisible(true);
+			moveCommandButton.setDisabled(false);
 			if (selectedUnit.getType() == UnitType.WORKER) {
-				BuildCommandButton.setVisible(true);
+				BuildCommandButton.setDisabled(false);
 			}
 		}
+		updateUnitText();
 	}
 
 	public void resetButtons() {

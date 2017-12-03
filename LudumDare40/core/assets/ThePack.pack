@@ -108,9 +108,16 @@ Button
   orig: 48, 48
   offset: 0, 0
   index: -1
-ButtonPressed
+ButtonDisabled
   rotate: false
   xy: 961, 207
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+ButtonPressed
+  rotate: false
+  xy: 803, 51
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
@@ -124,28 +131,28 @@ Archer
   index: -1
 ArcherEnemy
   rotate: false
-  xy: 803, 67
+  xy: 35, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Warrior
   rotate: false
-  xy: 35, 5
+  xy: 69, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 WarriorEnemy
   rotate: false
-  xy: 69, 5
+  xy: 103, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Worker
   rotate: false
-  xy: 103, 5
+  xy: 137, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -166,7 +173,7 @@ GoldIcon
   index: -1
 WoodIcon
   rotate: false
-  xy: 837, 79
+  xy: 171, 17
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
