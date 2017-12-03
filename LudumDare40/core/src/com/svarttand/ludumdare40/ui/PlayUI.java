@@ -104,8 +104,6 @@ public class PlayUI {
 	    buildInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
 	    buildInfoText.setPosition(Application.V_WIDTH *0.115f, Application.V_HEIGHT*0.2f);
 	    
-	    buildInfoText = new Label("", new LabelStyle(font, Color.WHITE));
-	    buildInfoText.setPosition(Application.V_WIDTH *0.115f, Application.V_HEIGHT*0.2f);
 	    
 	    foodText = new Label("10", new LabelStyle(font, Color.WHITE));
 	    foodText.setPosition(Application.V_WIDTH *0.06f, Application.V_HEIGHT*0.02f);
@@ -402,6 +400,7 @@ public class PlayUI {
 	
 	public void dispose(){
 		stage.dispose();
+		font.dispose();
 	}
 	
 	public void setHex(Hexagon hex){

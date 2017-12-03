@@ -33,9 +33,9 @@ public class HexagonMap {
 	private GameStateManager gsm;
 	
 	private Random random;
+	private PlayState game;
 	
-	
-	public HexagonMap(int x, int y, GameStateManager gsm){
+	public HexagonMap(int x, int y, GameStateManager gsm, PlayState game){
 		this.gsm = gsm;
 		sizeX = x;
 		sizeY = y;
@@ -54,6 +54,7 @@ public class HexagonMap {
 		map[randx][randy].setType(TileType.CITY);
 		startPos = new Vector2(map[randx][randy].getPosX(), map[randx][randy].getPosY());
 		addCity(map[randx][randy]);
+		this.game = game;
 		//updateBorders(game.getUI());
 	}
 	
@@ -171,33 +172,37 @@ public class HexagonMap {
 	}
 	
 	public void update(ResourceHandler handler){
-		int randx = random.nextInt((sizeX - 5)) + 3;
-		int randy = random.nextInt((sizeY - 5)) + 3;
 		
-		Hexagon temp = map[randx][randy];
-		boolean notPossibleLocation = false;
-		for (int i = 0; i < cityList.size(); i++) {
-			cityList.get(i).setSelected(BorderType.BLUE);
-			handler.addTilesResourcers(cityList.get(i));
-			if (temp.getType() == TileType.GOLD) {
-				notPossibleLocation = true;
-			}
-			if (temp.isSame(cityList.get(i))) {
-				notPossibleLocation = true;
-			}
-			for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
-				cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
-				handler.addTilesResourcers(cityList.get(i).getNeighbors().get(j));
-				if (temp.isSame(cityList.get(i).getNeighbors().get(j))) {
+		for (int j1 = 0; j1 < 3; j1++) {
+			int randx = random.nextInt((sizeX - 5)) + 3;
+			int randy = random.nextInt((sizeY - 5)) + 3;
+			
+			Hexagon temp = map[randx][randy];
+			boolean notPossibleLocation = false;
+			for (int i = 0; i < cityList.size(); i++) {
+				cityList.get(i).setSelected(BorderType.BLUE);
+				handler.addTilesResourcers(cityList.get(i));
+				if (temp.getType() == TileType.GOLD) {
 					notPossibleLocation = true;
 				}
+				if (temp.isSame(cityList.get(i))) {
+					notPossibleLocation = true;
+				}
+				for (int j = 0; j < cityList.get(i).getNeighbors().size(); j++) {
+					cityList.get(i).getNeighbors().get(j).setSelected(BorderType.BLUE);
+					handler.addTilesResourcers(cityList.get(i).getNeighbors().get(j));
+					if (temp.isSame(cityList.get(i).getNeighbors().get(j))) {
+						notPossibleLocation = true;
+					}
+				}
+			}
+			if (!notPossibleLocation && campList.size() <= handler.getGold()*0.08f) {
+				temp.setType(TileType.CAMP);
+				campList.add(temp);
+				System.out.println("Added camp");
 			}
 		}
-		if (!notPossibleLocation && campList.size() <= handler.getGold()*0.08f) {
-			temp.setType(TileType.CAMP);
-			campList.add(temp);
-			System.out.println("Added camp");
-		}
+		
 			
 		
 	}
@@ -224,6 +229,8 @@ public class HexagonMap {
 		ui.updateGain(food, gold, wood);
 		if (ownedGold.size() == getTotalGold()) {
 			System.out.println("game won");
+			gsm.pop();
+			gsm.peek().updateScreen(false, game.getTurnCounter());
 		}
 	}
 
@@ -244,7 +251,9 @@ public class HexagonMap {
 			}
 		}else{
 			System.out.println("Game Lost!");
+			
 			gsm.pop();
+			gsm.peek().updateScreen(false, game.getTurnCounter());
 		}
 		removeGold(city.getNeighbors());
 		

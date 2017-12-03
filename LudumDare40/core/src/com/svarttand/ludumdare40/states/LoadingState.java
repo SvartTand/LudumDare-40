@@ -88,4 +88,10 @@ public class LoadingState extends State {
         viewport.update(width, height);
 
     }
+
+	@Override
+	public void updateScreen(boolean b, int t) {
+		// TODO Auto-generated method stub
+		
+	}
 }

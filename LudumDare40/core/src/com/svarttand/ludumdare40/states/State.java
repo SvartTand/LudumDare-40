@@ -25,4 +25,6 @@ public abstract class State {
 	    public abstract void dispose();
 	    public abstract void resize(int width, int height);
 
+		public abstract void updateScreen(boolean b, int i);
+
 }

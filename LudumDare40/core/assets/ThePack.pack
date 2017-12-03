@@ -5,231 +5,238 @@ filter: Nearest,Nearest
 repeat: none
 UiBar
   rotate: false
-  xy: 1, 704
+  xy: 1, 860
   size: 800, 150
   orig: 800, 150
   offset: 0, 0
   index: -1
 Background
   rotate: false
-  xy: 1, 302
+  xy: 1, 458
   size: 400, 400
   orig: 400, 400
   offset: 0, 0
   index: -1
+Title
+  rotate: false
+  xy: 1, 256
+  size: 600, 200
+  orig: 600, 200
+  offset: 0, 0
+  index: -1
 BuildInfoPanel
   rotate: false
-  xy: 1, 225
+  xy: 1, 179
   size: 240, 75
   orig: 240, 75
   offset: 0, 0
   index: -1
 TopCorner
   rotate: false
-  xy: 803, 790
+  xy: 803, 946
   size: 196, 64
   orig: 196, 64
   offset: 0, 0
   index: -1
 MenuButton
   rotate: false
-  xy: 403, 646
+  xy: 403, 802
   size: 200, 56
   orig: 200, 56
   offset: 0, 0
   index: -1
 MenuButtonPressed
   rotate: false
-  xy: 1, 167
+  xy: 1, 121
   size: 200, 56
   orig: 200, 56
   offset: 0, 0
   index: -1
 EndTurnButton
   rotate: false
-  xy: 243, 262
+  xy: 243, 216
   size: 90, 38
   orig: 90, 38
   offset: 0, 0
   index: -1
 EndTurnButtonPressed
   rotate: false
-  xy: 803, 750
+  xy: 803, 906
   size: 90, 38
   orig: 90, 38
   offset: 0, 0
   index: -1
 AilienSpawner
   rotate: false
-  xy: 403, 588
+  xy: 403, 744
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 BlackBorder
   rotate: false
-  xy: 605, 646
+  xy: 605, 802
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 BlueBorder
   rotate: false
-  xy: 1, 109
+  xy: 1, 63
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 CityDome
   rotate: false
-  xy: 403, 530
+  xy: 403, 686
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Desert
   rotate: false
-  xy: 469, 588
+  xy: 469, 744
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Farmland
   rotate: false
-  xy: 671, 646
+  xy: 671, 802
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Forrest
   rotate: false
-  xy: 1, 51
+  xy: 1, 5
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 GoldMine
   rotate: false
-  xy: 67, 109
+  xy: 67, 63
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Grassland
   rotate: false
-  xy: 403, 472
+  xy: 403, 628
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 RedBorder
   rotate: false
-  xy: 469, 530
+  xy: 469, 686
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 WhiteBorder
   rotate: false
-  xy: 535, 588
+  xy: 535, 744
   size: 64, 56
   orig: 64, 56
   offset: 0, 0
   index: -1
 Button
   rotate: false
-  xy: 737, 654
+  xy: 737, 810
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ButtonDisabled
   rotate: false
-  xy: 1, 1
+  xy: 67, 13
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 ButtonPressed
   rotate: false
-  xy: 67, 59
+  xy: 133, 71
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 Archer
   rotate: false
-  xy: 203, 191
+  xy: 203, 145
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 ArcherEnemy
   rotate: false
-  xy: 243, 228
+  xy: 243, 182
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 BigBadAilien
   rotate: false
-  xy: 335, 268
+  xy: 335, 222
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Infantry
   rotate: false
-  xy: 803, 716
+  xy: 803, 872
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 SnailAiliens
   rotate: false
-  xy: 895, 756
+  xy: 895, 912
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Tank
   rotate: false
-  xy: 133, 133
+  xy: 403, 594
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 Worker
   rotate: false
-  xy: 403, 438
+  xy: 469, 652
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 FoodIcon
   rotate: false
-  xy: 1001, 834
+  xy: 1001, 990
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 GoldIcon
   rotate: false
-  xy: 469, 508
+  xy: 535, 722
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 WoodIcon
   rotate: false
-  xy: 535, 566
+  xy: 601, 780
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 point
   rotate: false
-  xy: 601, 642
+  xy: 1, 1
   size: 2, 2
   orig: 2, 2
   offset: 0, 0

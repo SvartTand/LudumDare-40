@@ -48,13 +48,13 @@ public class MenuUI {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
 	             gsm.push(new PlayState(gsm, textureAtlas));
-
+	             playButton.setChecked(false);
 	            }
 	        });
 	     
 	     stage.addActor(playButton);
 	     
-	     text = new Label("Made by Albert Lindberg for Ludum Dare in 48 hours", new LabelStyle(font, Color.WHITE));
+	     text = new Label("Made by Albert Lindberg in libgdx for Ludum Dare in 48 hours", new LabelStyle(font, Color.WHITE));
 		 text.setPosition(Application.V_WIDTH *0.5f - text.getWidth()*0.5f, Application.V_HEIGHT*0.06f);
 		 
 		 stage.addActor(text);

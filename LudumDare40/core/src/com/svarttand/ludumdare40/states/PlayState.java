@@ -49,7 +49,7 @@ public class PlayState extends State{
 	private ShapeRenderer renderer;
 	
 	private ArrayList<Sound> audioList;
-	
+	private int turnCounter;
 	private BitmapFont font;
 	
 	public PlayState(GameStateManager gsm, TextureAtlas textureAtlas2) {
@@ -57,11 +57,11 @@ public class PlayState extends State{
 		textureAtlas = textureAtlas2;
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		map = new HexagonMap(10, 22, gsm);
+		map = new HexagonMap(10, 22, gsm, this);
 		controller = new GameController(this);
 		multiplexer = new InputMultiplexer();
 
-		resourceHandler = new ResourceHandler(5,5,5);
+		resourceHandler = new ResourceHandler(30,20,20);
 		ui = new PlayUI(textureAtlas, this);
 		map.updateBorders(ui);
 		multiplexer.addProcessor(ui.getStage());
@@ -81,9 +81,8 @@ public class PlayState extends State{
 		cam.position.x = map.getStartPos().x;
 		cam.position.y = Application.V_HEIGHT*0.3f;
 		
-		resourceHandler = new ResourceHandler(5,5,5);
 		enemyUnitHandler = new EnemyUnitHandler(font);
-		
+		turnCounter = 0;
 		renderer = new ShapeRenderer();
 	}
 
@@ -147,6 +146,8 @@ public class PlayState extends State{
 	@Override
 	public void dispose() {
 		ui.dispose();
+		font.dispose();
+		
 		
 	}
 
@@ -177,6 +178,7 @@ public class PlayState extends State{
 	}
 
 	public void nextTurn() {
+		turnCounter++;
 		unitHandler.nextTurn();
 		map.update(resourceHandler);
 		ui.update(resourceHandler, map);
@@ -187,10 +189,20 @@ public class PlayState extends State{
 	public ResourceHandler getResources(){
 		return resourceHandler;
 	}
+	
+	public int getTurnCounter(){
+		return turnCounter;
+	}
 
 	public UHandler getEnemyUnitHandler() {
 		// TODO Auto-generated method stub
 		return enemyUnitHandler;
+	}
+
+	@Override
+	public void updateScreen(boolean b, int t) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

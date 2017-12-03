@@ -12,7 +12,7 @@ public class ResourceHandler {
 	private int food;
 	
 	
-	public ResourceHandler(int wood, int gold, int food){
+	public ResourceHandler(int food, int gold, int wood){
 		this.wood = wood;
 		this.gold = gold;
 		this.food = food;
