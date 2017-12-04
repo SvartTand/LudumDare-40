@@ -229,7 +229,7 @@ public class HexagonMap {
 		if (ownedGold.size() == getTotalGold()) {
 			System.out.println("game won");
 			gsm.pop();
-			gsm.peek().updateScreen(false, game.getTurnCounter());
+			gsm.peek().updateScreen(true, game.getTurnCounter());
 		}
 	}
 
