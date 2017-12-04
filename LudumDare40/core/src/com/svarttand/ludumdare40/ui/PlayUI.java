@@ -2,6 +2,7 @@ package com.svarttand.ludumdare40.ui;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -34,6 +35,8 @@ public class PlayUI {
 	private OrthographicCamera camera;
 	private Viewport viewport;
 	
+	int goldPerTurn;
+	
 	private Stage stage;
 	
 	private TextButton.TextButtonStyle style;
@@ -54,7 +57,7 @@ public class PlayUI {
 	private Label objectiveText;
 	private Label unitInfoText;
 	private Label hexInfoText;
-
+	private Label buildbuttonText;
 
 	private Label buildInfoText;
 	
@@ -71,7 +74,7 @@ public class PlayUI {
 	
 	ArrayList<FloatingText> floatingTexts;
 	
-	public PlayUI(TextureAtlas atlas, final PlayState game){
+	public PlayUI(TextureAtlas atlas, final PlayState game, final ArrayList<Sound> audioList){
 		camera = new OrthographicCamera();
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, camera);
 		stage = new Stage(viewport);
@@ -98,6 +101,10 @@ public class PlayUI {
 	    unitInfoText = new Label("Unit:", new LabelStyle(font, Color.WHITE));
 	    unitInfoText.setPosition(Application.V_WIDTH *0.6f, Application.V_HEIGHT*0.05f);
 	    
+	    buildbuttonText = new Label("Builders \ncan build \nmore domes\n"
+	    		+ "Move camera \nwith A & D", new LabelStyle(font, Color.WHITE));
+	    buildbuttonText.setPosition(Application.V_WIDTH *0.89f, Application.V_HEIGHT*0.065f);
+	    
 	    hexInfoText = new Label("Nothing selected", new LabelStyle(font, Color.WHITE));
 	    hexInfoText.setPosition(Application.V_WIDTH *0.02f, Application.V_HEIGHT*0.06f);
 	    
@@ -114,6 +121,7 @@ public class PlayUI {
 	    
 	    buildInfoText.setVisible(false);
 	    
+	    stage.addActor(buildbuttonText);
 	    stage.addActor(woodText);
 	    stage.addActor(goldText);
 	    stage.addActor(foodText);
@@ -132,7 +140,7 @@ public class PlayUI {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
 	        	 System.out.println("move pressed");
-	        	 
+	        	 audioList.get(5).play();
 	        		 if (selectedUnit != null) {
 	 					game.getController().setCommand(Command.MOVE);
 	 					game.getController().setMovmentPossibilities(selectedUnit.getMovmentsLeft());
@@ -150,6 +158,7 @@ public class PlayUI {
 	    makeBuilderButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
+	        	 audioList.get(5).play();
 	        	 updateBuyTab(makeBuilderButton.isChecked(), UnitType.WORKER);
 	        	 makeTankButton.setChecked(false);
 	        	 makeWarriorButton.setChecked(false);
@@ -163,6 +172,7 @@ public class PlayUI {
 	    makeWarriorButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
+	        	 audioList.get(5).play();
 	        	 updateBuyTab(makeWarriorButton.isChecked(), UnitType.WARRIOR);
 	        	 makeBuilderButton.setChecked(false);
 	        	 makeTankButton.setChecked(false);
@@ -181,6 +191,7 @@ public class PlayUI {
 	        	 updateBuyTab(makeTankButton.isChecked(), UnitType.TANK);
 	        	 makeBuilderButton.setChecked(false);
 	        	 makeWarriorButton.setChecked(false);
+	        	 audioList.get(5).play();
 	            }
 	        });
 	    buttonList.add(makeTankButton);
@@ -204,10 +215,11 @@ public class PlayUI {
 			 					game.getUnitHandler().addUnit(selectedUnit);
 			 					System.out.println("Unit added");
 			 					updateButtons();
-			 					
+			 					audioList.get(1).play();
 			 					game.getResources().removeCost(UnitType.WARRIOR);
 			 					update(game.getResources(), game.getMap());
 							}else{
+								audioList.get(0).play();
 								System.out.println("Not enough money!");
 								FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 								floatingTexts.add(temp);
@@ -221,10 +233,12 @@ public class PlayUI {
 			 					game.getUnitHandler().addUnit(selectedUnit);
 			 					System.out.println("Unit added");
 			 					updateButtons();
+			 					audioList.get(1).play();
 			 					
 			 					game.getResources().removeCost(UnitType.WORKER);
 			 					update(game.getResources(), game.getMap());
 							}else{
+								audioList.get(0).play();
 								System.out.println("Not enough money!");
 								FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 								floatingTexts.add(temp);
@@ -238,16 +252,21 @@ public class PlayUI {
 			 					game.getUnitHandler().addUnit(selectedUnit);
 			 					System.out.println("Unit added");
 			 					updateButtons();
-			 					
+			 					audioList.get(1).play();
 			 					game.getResources().removeCost(UnitType.TANK);
 			 					update(game.getResources(), game.getMap());
 							}else{
+								audioList.get(0).play();
 								System.out.println("Not enough money!");
 								FloatingText temp = new FloatingText("Not Enough Money!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 								floatingTexts.add(temp);
 								//stage.addActor(temp.getLabel());
 							}
 					}
+				}else{
+					audioList.get(0).play();
+					FloatingText temp = new FloatingText("Already a unit on the city!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
+					floatingTexts.add(temp);
 				}
 	        	 makeUnit.setChecked(false);
 	            }
@@ -272,12 +291,14 @@ public class PlayUI {
 	        				FloatingText temp = new FloatingText("Cant Build on Gold!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 							floatingTexts.add(temp);
 							stage.addActor(temp.getLabel());
+							audioList.get(0).play();
 						}else if (selectedHexagon.getType() == TileType.CITY) {
 							FloatingText temp = new FloatingText("Cant Build on Domes!", Application.V_WIDTH*0.5f, Application.V_HEIGHT*0.5f, 2, new LabelStyle(font, Color.RED), true);
 							floatingTexts.add(temp);
 							stage.addActor(temp.getLabel());
+							audioList.get(0).play();
 						}else{
-							
+							audioList.get(1).play();
 							selectedHexagon.setType(TileType.CITY);
 		 					game.getMap().addCity(selectedHexagon);
 		 					selectedUnit.remove(game.getUnitHandler());
@@ -304,6 +325,7 @@ public class PlayUI {
 	    endTurnButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
+	        	 audioList.get(1).play();
 	        	 System.out.println("Next turn!");
 	        	 game.nextTurn();
 	        	 endTurnButton.setChecked(false);
@@ -383,7 +405,7 @@ public class PlayUI {
 		tabVisible = b;
 		if (type == UnitType.WARRIOR) {
 			buildInfoText.setText(UnitType.WARRIOR.getPath() + ":   Agility: " + UnitType.WARRIOR.getMovments() + "\n    " + UnitType.WARRIOR.getFoodCost()
-			+ ",     " + UnitType.WARRIOR.getGoldCost() + ",     " + UnitType.WARRIOR.getWoodCost() + "\nDmg: " + UnitType.WARRIOR.getDmg() + ", Hp: " +UnitType.WARRIOR.getHp());
+			+ ",      " + UnitType.WARRIOR.getGoldCost() + ",      " + UnitType.WARRIOR.getWoodCost() + "\nDmg: " + UnitType.WARRIOR.getDmg() + ", Hp: " +UnitType.WARRIOR.getHp());
 		}else if (type == UnitType.TANK) {
 			buildInfoText.setText(UnitType.TANK.getPath() + ":   Agility: " + UnitType.TANK.getMovments() + "\n    " + UnitType.TANK.getFoodCost()
 			+ ",     " + UnitType.TANK.getGoldCost() + ",     " + UnitType.TANK.getWoodCost() + "\nDmg: " + UnitType.TANK.getDmg() + ", Hp: " +UnitType.TANK.getHp());
@@ -444,11 +466,16 @@ public class PlayUI {
 	}
 
 	public void updateGain(int food, int gold, int wood) {
-		foodText.setText("Total Increase per turn: " + food);
-		goldText.setText("" + gold);
-		woodText.setText("" + wood);
+		foodText.setText("Total Increase per turn: +" + food);
+		goldText.setText("+" + gold);
+		woodText.setText(" +" + wood);
+		goldPerTurn = gold;
 		
-		
+	}
+
+	public int getGoldperTurn() {
+		// TODO Auto-generated method stub
+		return goldPerTurn;
 	}
 
 }

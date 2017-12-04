@@ -70,7 +70,7 @@ public class HexagonMap {
 					type = TileType.FOOD;
 				}else if (rand <= 10) {
 					type = TileType.DESSERT;
-				}else if (rand <= 15) {
+				}else if (rand <= 17) {
 					type = TileType.WOOD;
 				}
 				if (j%2 == 0) {
@@ -173,7 +173,7 @@ public class HexagonMap {
 	
 	public void update(ResourceHandler handler){
 		
-		for (int j1 = 0; j1 < 3; j1++) {
+		
 			int randx = random.nextInt((sizeX - 5)) + 3;
 			int randy = random.nextInt((sizeY - 5)) + 3;
 			
@@ -201,7 +201,6 @@ public class HexagonMap {
 				campList.add(temp);
 				System.out.println("Added camp");
 			}
-		}
 		
 			
 		

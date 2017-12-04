@@ -55,6 +55,10 @@ public class PlayState extends State{
 	public PlayState(GameStateManager gsm, TextureAtlas textureAtlas2) {
 		super(gsm);
 		textureAtlas = textureAtlas2;
+		audioList = new ArrayList<Sound>();
+		for (int i = 1; i < LoadingState.AUDIO_AMOUNT; i++) {
+			audioList.add(gsm.assetManager.get("Sound/"+ i + ".wav",Sound.class));
+		}
 		viewport = new StretchViewport(Application.V_WIDTH, Application.V_HEIGHT, cam);
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		map = new HexagonMap(10, 22, gsm, this);
@@ -62,7 +66,7 @@ public class PlayState extends State{
 		multiplexer = new InputMultiplexer();
 
 		resourceHandler = new ResourceHandler(30,20,20);
-		ui = new PlayUI(textureAtlas, this);
+		ui = new PlayUI(textureAtlas, this, audioList);
 		map.updateBorders(ui);
 		multiplexer.addProcessor(ui.getStage());
 		multiplexer.addProcessor(controller);
@@ -71,11 +75,9 @@ public class PlayState extends State{
 		
 		Gdx.input.setInputProcessor(multiplexer);
 		
-		audioList = new ArrayList<Sound>();
 		
-		for (int i = 1; i < LoadingState.AUDIO_AMOUNT; i++) {
-			audioList.add(gsm.assetManager.get("Sound/"+ i + ".wav",Sound.class));
-		}
+		
+		
 		
 		unitHandler = new UnitHandler(font);
 		cam.position.x = map.getStartPos().x;
@@ -147,7 +149,9 @@ public class PlayState extends State{
 	public void dispose() {
 		ui.dispose();
 		font.dispose();
-		
+		for (int i = 0; i < audioList.size(); i++) {
+			audioList.get(i).dispose();
+		}
 		
 	}
 
@@ -176,13 +180,17 @@ public class PlayState extends State{
 	public GameController getController() {
 		return controller;
 	}
+	
+	public ArrayList<Sound> getAudio(){
+		return audioList;
+	}
 
 	public void nextTurn() {
 		turnCounter++;
 		unitHandler.nextTurn();
 		map.update(resourceHandler);
 		ui.update(resourceHandler, map);
-		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList(), unitHandler, map);
+		enemyUnitHandler.update(map.getCityList(), unitHandler.getUnits(), map.getCampList(), unitHandler, map, audioList, ui.getGoldperTurn());
 		System.out.println("finished updating");
 	}
 	

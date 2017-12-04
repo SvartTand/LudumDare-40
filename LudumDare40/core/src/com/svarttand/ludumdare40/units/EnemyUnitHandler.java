@@ -3,6 +3,7 @@ package com.svarttand.ludumdare40.units;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +27,7 @@ public class EnemyUnitHandler implements UHandler{
 		this.font = font;
 	}
 	
-	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList, ArrayList<Hexagon> campList, UnitHandler handler, HexagonMap map){
+	public void update(ArrayList<Hexagon> cityList, ArrayList<Unit> friendlyUnitList, ArrayList<Hexagon> campList, UnitHandler handler, HexagonMap map, ArrayList<Sound> audio, int currentGoldInput){
 		System.out.println("unitHandling updating...");
 		for (int i = 0; i < unitList.size(); i++) {
 			System.out.println("Unit " + i + "/" + unitList.size());
@@ -34,9 +35,9 @@ public class EnemyUnitHandler implements UHandler{
 			System.out.println("calculating route...");
 			unitList.get(i).calculateRoute(cityList, friendlyUnitList);
 			System.out.println("moving unit...");
-			unitList.get(i).moveNext(this, handler, map);
+			unitList.get(i).moveNext(this, handler, map, audio);
 		}
-		addUnit(campList);
+		addUnit(campList, currentGoldInput);
 	}
 	
 	public void updateDelta(float delta){
@@ -47,20 +48,23 @@ public class EnemyUnitHandler implements UHandler{
 		}
 	}
 	
-	private void addUnit(ArrayList<Hexagon> campList){
+	private void addUnit(ArrayList<Hexagon> campList, int currentGoldInput){
 		Random random = new Random();
 		for (int i = 0; i < campList.size(); i++) {
-			int rand = random.nextInt(100);
-			if (rand <= 20) {
-				if (campList.get(i).getUnit() == null) {
-					unitList.add(campList.get(i).addUnit(UnitType.WARRIOR_ENEMY));
-					System.out.println("Unit Added!");
+			int rand = random.nextInt(20);
+			if (rand <= currentGoldInput) {
+				if (rand == 4) {
+					if (campList.get(i).getUnit() == null) {
+						unitList.add(campList.get(i).addUnit(UnitType.TANK_ENEMY));
+						System.out.println("Unit Added!");
+					}
+				}else {
+					if (campList.get(i).getUnit() == null) {
+						unitList.add(campList.get(i).addUnit(UnitType.WARRIOR_ENEMY));
+						System.out.println("Unit Added!");
+					}
 				}
-			}else if (rand == 21) {
-				if (campList.get(i).getUnit() == null) {
-					unitList.add(campList.get(i).addUnit(UnitType.TANK_ENEMY));
-					System.out.println("Unit Added!");
-				}
+				
 			}
 			
 		}

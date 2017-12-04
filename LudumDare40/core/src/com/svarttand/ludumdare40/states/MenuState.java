@@ -1,6 +1,7 @@
 package com.svarttand.ludumdare40.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -30,10 +31,11 @@ public class MenuState extends State{
         cam.update();
         viewport.apply();
         viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        ui = new MenuUI(textureAtlas, gsm, viewport,cam);
+        ui = new MenuUI(textureAtlas, gsm, viewport,cam, gsm.assetManager.get("Sound/2.wav", Sound.class));
         font = new BitmapFont();
-        gameOverLabel = new Label("", new LabelStyle(font, Color.WHITE));
+        gameOverLabel = new Label("", new LabelStyle(font, Color.BLACK));
         gameOverLabel.setPosition(Application.V_WIDTH*0.5f-gameOverLabel.getWidth()*0.5f, Application.V_WIDTH*0.5f-gameOverLabel.getWidth()*0.5f);
+        gameOverLabel.setFontScale(2);
 	}
 	
 	
@@ -83,10 +85,10 @@ public class MenuState extends State{
 		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		if (b) {
 			gameOverLabel.setText("Congratulations You are VICTORIOUS!\n Number of turns it took: " + t);
-			gameOverLabel.setPosition(Application.V_WIDTH*0.4f-gameOverLabel.getWidth()*0.5f, Application.V_HEIGHT*0.4f-gameOverLabel.getHeight()*0.5f);
+			gameOverLabel.setPosition(Application.V_WIDTH*0.3f-gameOverLabel.getWidth()*0.5f, Application.V_HEIGHT*0.4f-gameOverLabel.getHeight()*0.5f);
 		}else {
 			gameOverLabel.setText("You Have Been DEFEATED!\n Number of turns it took: " + t);
-			gameOverLabel.setPosition(Application.V_WIDTH*0.4f-gameOverLabel.getWidth()*0.5f, Application.V_HEIGHT*0.4f-gameOverLabel.getHeight()*0.5f);
+			gameOverLabel.setPosition(Application.V_WIDTH*0.3f-gameOverLabel.getWidth()*0.5f, Application.V_HEIGHT*0.4f-gameOverLabel.getHeight()*0.5f);
 		}
 	}
 	

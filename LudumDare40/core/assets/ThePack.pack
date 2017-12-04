@@ -192,23 +192,44 @@ Infantry
   orig: 32, 32
   offset: 0, 0
   index: -1
-SnailAiliens
+InfantrySleep
   rotate: false
   xy: 895, 912
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Tank
+SnailAiliens
   rotate: false
   xy: 403, 594
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Worker
+Tank
   rotate: false
   xy: 469, 652
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+TankSleep
+  rotate: false
+  xy: 535, 710
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Worker
+  rotate: false
+  xy: 601, 768
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+WorkerSleep
+  rotate: false
+  xy: 277, 182
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -222,14 +243,14 @@ FoodIcon
   index: -1
 GoldIcon
   rotate: false
-  xy: 535, 722
+  xy: 203, 123
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 WoodIcon
   rotate: false
-  xy: 601, 780
+  xy: 369, 234
   size: 20, 20
   orig: 20, 20
   offset: 0, 0

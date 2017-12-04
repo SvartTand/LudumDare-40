@@ -58,6 +58,7 @@ public class GameController implements InputProcessor{
 				previousSelected = currentSelected;
 			}
 			game.getMap().updateBorders(game.getUI());
+			game.getAudio().get(6).play();
 			if (currentCommand == Command.NO_COMMAND) {
 				if (button == 0) {
 					try {
@@ -93,7 +94,7 @@ public class GameController implements InputProcessor{
 						
 						if (possiblePlaces.get(i).isSame(currentSelected)) {
 							if (currentSelected.getUnit() != null) {
-								previousSelected.getUnit().attack(currentSelected, game.getEnemyUnitHandler(), game.getUnitHandler());
+								previousSelected.getUnit().attack(currentSelected, game.getEnemyUnitHandler(), game.getUnitHandler(), game.getAudio());
 							}else{
 								previousSelected.getUnit().move(currentSelected, currentSelected.getType().getMovmentCost(), game.getMap());
 								if (currentSelected.getType() == TileType.CAMP) {

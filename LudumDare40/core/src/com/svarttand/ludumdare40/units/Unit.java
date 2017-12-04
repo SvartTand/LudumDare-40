@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.svarttand.ludumdare40.map.Hexagon;
 import com.svarttand.ludumdare40.map.HexagonMap;
@@ -80,7 +81,7 @@ public class Unit {
 		
 	}
 	
-	public void attack(Hexagon hex, UHandler handlerDef, UHandler handlerAttack){
+	public void attack(Hexagon hex, UHandler handlerDef, UHandler handlerAttack, ArrayList<Sound> audio){
 		Random random = new Random();
 		int rand1 = random.nextInt((type.getDmg() - 5)) + 5;
 		int rand2 = random.nextInt((type.getDmg() - 7)) + 7;
@@ -95,28 +96,41 @@ public class Unit {
 		hex.getUnit().getHpBar().update(hex.getUnit().health, hex.getUnit().getPos().x, hex.getUnit().getPos().y);
 		handlerAttack.addFloatingText("-" + rand2, pos.x, pos.y);
 		handlerDef.addFloatingText("-" +rand1, hex.getUnit().pos.x, hex.getUnit().pos.y);
+		boolean dead = false;
+		
 		if (health <= 0 && hex.getUnit().health <= 0) {
 			if (health > hex.getUnit().health) {
 				health = 1;
 				hex.getUnit().remove(handlerDef);
+				audio.get(3).play();
 				System.out.println("Dead defender");
+				dead = true;
 			}else {
 				hex.getUnit().health = 1;
 				remove(handlerAttack);
+				audio.get(3).play();
 				System.out.println("Dead attacker");
+				dead = true;
 				
 			}
 		}else {
 			
 			if (hex.getUnit().health <= 0) {
 				hex.getUnit().remove(handlerDef);
+				audio.get(3).play();
 				System.out.println("Dead defender");
+				dead = true;
 			}
 			if (health <= 0) {
 				remove(handlerAttack);
+				audio.get(3).play();
 				System.out.println("Dead attacker");
+				dead = true;
 			}
 			
+		}
+		if (!dead) {
+			audio.get(4).play();
 		}
 		
 		movmentsLeft = 0;
@@ -235,14 +249,14 @@ public class Unit {
 		
 	}
 
-	public void moveNext(EnemyUnitHandler enemyUnitHandler, UnitHandler unitHandler, HexagonMap map) {
+	public void moveNext(EnemyUnitHandler enemyUnitHandler, UnitHandler unitHandler, HexagonMap map, ArrayList<Sound> audio) {
 		while(movmentsLeft > 0){
 			if (!movmentPath.isEmpty()) {
 				
 				if (movmentPath.getLast().getUnit() == null) {
 					move(movmentPath.getLast(), movmentPath.removeLast().getType().getMovmentCost(), map);
 				}else if (!movmentPath.getLast().getUnit().getType().isEnemy()) {
-					attack(movmentPath.getLast(), unitHandler, enemyUnitHandler);
+					attack(movmentPath.getLast(), unitHandler, enemyUnitHandler, audio);
 				}else {
 					movmentsLeft = 0;
 				}

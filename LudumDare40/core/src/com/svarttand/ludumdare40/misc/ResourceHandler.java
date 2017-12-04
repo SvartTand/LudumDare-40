@@ -50,9 +50,9 @@ public class ResourceHandler {
 	}
 
 	public void addTilesResourcers(Hexagon hexagon) {
-		food = food + hexagon.getType().getFood();
-		wood = wood + hexagon.getType().getWood();
-		gold = gold + hexagon.getType().getGold();
+		food += hexagon.getType().getFood();
+		wood += + hexagon.getType().getWood();
+		gold += + hexagon.getType().getGold();
 		
 	}
 	

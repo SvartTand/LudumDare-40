@@ -1,6 +1,7 @@
 package com.svarttand.ludumdare40.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,7 +29,7 @@ public class MenuUI {
 	private Button playButton;
 	private Label text;
 	
-	public MenuUI(final TextureAtlas textureAtlas, final GameStateManager gsm, Viewport viewport, OrthographicCamera cam){
+	public MenuUI(final TextureAtlas textureAtlas, final GameStateManager gsm, Viewport viewport, OrthographicCamera cam, final Sound sound){
 		stage = new Stage(viewport);
 		
 		 cam.update();
@@ -47,6 +48,7 @@ public class MenuUI {
 	     playButton.addListener( new ClickListener() {
 	         @Override
 	         public void clicked(InputEvent event, float x, float y) {
+	        	 sound.play();
 	             gsm.push(new PlayState(gsm, textureAtlas));
 	             playButton.setChecked(false);
 	            }

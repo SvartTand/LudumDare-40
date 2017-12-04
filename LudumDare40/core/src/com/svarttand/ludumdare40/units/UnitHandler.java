@@ -28,7 +28,12 @@ public class UnitHandler implements UHandler{
 	@Override
 	public void render(SpriteBatch batch, TextureAtlas atlas, ShapeRenderer renderer){
 		for (int i = 0; i < unitList.size(); i++) {
-			batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
+			if (unitList.get(i).getMovmentsLeft() <= 0) {
+				batch.draw(atlas.findRegion(unitList.get(i).getPath()+"Sleep"), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
+			}else{
+				batch.draw(atlas.findRegion(unitList.get(i).getPath()), unitList.get(i).getPos().x, unitList.get(i).getPos().y);
+			}
+			
 		}
 		for (int i = 0; i < floatingTexts.size(); i++) {
 			floatingTexts.get(i).getLabel().draw(batch, 1);
