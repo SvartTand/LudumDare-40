@@ -7,7 +7,7 @@ public enum TileType {
 	FOOD("Farmland", 1,0,2,0,0.8f, 1.2f),
 	DESSERT("Desert", 2,0,0,0, 0.5f, 0.5f),
 	WOOD("Forrest", 2,0,1,2, 1.4f,1.2f),
-	CAMP("AilienSpawner", 1,0,0,0,1.5f,1.2f);
+	CAMP("AlienSpawner", 1,0,0,0,1.5f,1.2f);
 	
 	
 	private String path;

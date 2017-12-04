@@ -66,7 +66,7 @@ EndTurnButtonPressed
   orig: 90, 38
   offset: 0, 0
   index: -1
-AilienSpawner
+AlienSpawner
   rotate: false
   xy: 403, 744
   size: 64, 56
@@ -178,58 +178,65 @@ ArcherEnemy
   orig: 32, 32
   offset: 0, 0
   index: -1
-BigBadAilien
+BigBadAlien
   rotate: false
   xy: 335, 222
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Infantry
+Icon
   rotate: false
   xy: 803, 872
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-InfantrySleep
+Infantry
   rotate: false
   xy: 895, 912
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-SnailAiliens
+InfantrySleep
   rotate: false
   xy: 403, 594
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Tank
+SnailAliens
   rotate: false
   xy: 469, 652
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-TankSleep
+Tank
   rotate: false
   xy: 535, 710
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Worker
+TankSleep
   rotate: false
   xy: 601, 768
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-WorkerSleep
+Worker
   rotate: false
   xy: 277, 182
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+WorkerSleep
+  rotate: false
+  xy: 369, 222
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -250,7 +257,7 @@ GoldIcon
   index: -1
 WoodIcon
   rotate: false
-  xy: 369, 234
+  xy: 837, 884
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
